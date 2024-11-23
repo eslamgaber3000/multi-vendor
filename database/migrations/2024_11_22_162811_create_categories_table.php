@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->foreignId('parent_id')->nullable()->references('id')->on('categories');
+            $table->foreignId('parent_id')->nullable()->constrained('categories','id')->nullOnDelete();
             $table->string('image')->nullable();
+            $table->enum('status',['found','not found']);
             $table->timestamps();
         });
     }

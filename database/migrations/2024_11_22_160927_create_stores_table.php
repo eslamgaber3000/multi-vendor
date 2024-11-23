@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('slug')->unique();
             $table->string('name');
-            $table->text('description');
-            $table->string('image')->nullable;
-            $table->string('address');
+            $table->text('description')->nullable();
+            $table->string('logo_image')->nullable();
+            $table->string('address')->nullable();
             $table->enum('status',['active','not active']);
             $table->string('cover_image')->nullable();
             $table->timestamps();
