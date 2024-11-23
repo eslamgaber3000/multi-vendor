@@ -17,8 +17,9 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2);
             $table->string('image')->nullable();
-            $table->foreignId('category_id')->references('id')->on('categories');
-            $table->foreignId('store_id')->references('id')->on('stores');
+            $table->foreignId('category_id')->references('id')->on('categories')->cascadeOnDelete();
+            $table->foreignId('store_id')->references('id')->on('stores')->cascadeOnDelete();
+            $table->enum('status',['found','not found']);
             $table->timestamps();
         });
     }
