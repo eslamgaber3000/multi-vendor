@@ -173,11 +173,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="image">
           <img src="{{ asset('/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
+   
         <div class="info">
-          <a href="#" class="d-block">{{ 'Eslam gaber' }}</a>
+       
+            
+       
+          @auth
+          <a href="#" class="d-block">{{Auth::user()->name}}</a>
+          <form action="{{route('logout')}}" method="post">
+            {{-- <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" /> --}}
+           {{-- <input type="hidden" name="_token" value="{{csrf_token()}}">  --}}
+           @csrf
+            <button  class="btn btn-outline-primary">logout</button>
+          </form>
+          @endauth
         </div>
       </div>
-
+     
       <!-- SidebarSearch Form -->
       <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
@@ -189,7 +201,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div>
         </div>
       </div>
-@include('layouts.partials.sidebar',['link' => 'new_sidebar'])
+  @include('layouts.partials.sidebar',['link' => 'new_sidebar'])
     </div>
     <!-- /.sidebar -->
   </aside>
