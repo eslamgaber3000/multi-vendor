@@ -184,7 +184,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             {{-- <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" /> --}}
            {{-- <input type="hidden" name="_token" value="{{csrf_token()}}">  --}}
            @csrf
-            <button  class="btn btn-outline-primary">logout</button>
+            <button  class="btn btn-sm btn-outline-primary">logout</button>
           </form>
           @endauth
         </div>

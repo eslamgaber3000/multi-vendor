@@ -13,8 +13,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
+
         $categories=Category::all(); //collection class
-        return view('dashboard.category.index',compact('categories'));
+        return view('dashboard.categories.index',compact('categories'));
     }
 
     /**
@@ -22,7 +23,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $categories=Category::all();
+        return view('dashboard.categories.create',compact('categories'));
     }
 
     /**
