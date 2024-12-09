@@ -8,7 +8,7 @@
         @csrf
         <div class="form-group">
             <label for="">Name</label>
-            <input name="Name" type="text" class="form-control">
+            <input name="name" type="text" class="form-control">
         </div>
 
         <div class="form-group">
@@ -16,11 +16,11 @@
 
             <select name="parent_id" class="form-control form-select">
                 <option value=""> Primary Category</option>
-            </select>
-            @foreach ($categories as $category)
+                @foreach ($categories as $cat)
                 
-            <option value="{{category->id}}">{{$category->name}}</option>
-            @endforeach
+                <option value="{{$cat->id}}">{{$cat->name}}</option>
+                @endforeach
+            </select>
         </div>
         
         <div class="form-group">

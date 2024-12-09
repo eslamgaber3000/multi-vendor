@@ -7,5 +7,5 @@ use App\Http\Controllers\dashboard\CategoryController;
 
 
 Route::resource('dashboard/category',CategoryController::class);
-Route::get('/dashboard', [DashboardController::class,'index'])->middleware(['auth','verified']);
+Route::get('/dashboard', [DashboardController::class,'index'])->middleware(['auth']);
 

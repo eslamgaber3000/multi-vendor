@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\dashboard;
 
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +15,8 @@ class CategoryController extends Controller
     public function index()
     {
 
-        $categories=Category::all(); //collection class
+        $categories=Category::all();
+         //collection class
         return view('dashboard.categories.index',compact('categories'));
     }
 
@@ -24,6 +26,7 @@ class CategoryController extends Controller
     public function create()
     {
         $categories=Category::all();
+        // dd($categories);
         return view('dashboard.categories.create',compact('categories'));
     }
 
@@ -32,7 +35,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $slug=$request->merge([
+
+            'slug'=>Str::slug($request->post('name'))
+        ]);
+
+        
+
+        $category=$request->all();
+        Category::create($category);
+        return redirect()->route('category.index')->with('success','Created successfully');
     }
 
     /**
