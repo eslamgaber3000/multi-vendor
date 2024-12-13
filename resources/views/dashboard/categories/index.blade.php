@@ -16,9 +16,14 @@
             {{ session()->get('success') }}
         </div>
     @endif
+    @if (Session::has('info'))
+        <div class="alert alert-info">
+            {{ session()->get('info') }}
+        </div>
+    @endif
 
     <div class="mb-3 ml-5">
-        <a class="btn btn-sm btn-outline-primary" href="{{ route('category.create') }}">Create</a>
+        <a class="btn btn-sm btn-outline-primary" href="{{ route('dashboard.category.create') }}">Create</a>
     </div>
     <table class="table">
         <thead>
@@ -26,9 +31,9 @@
                 <th>image</th>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Parent</th>
+                 <th>Parent</th>
                 <th>Created At</th>
-                <th colspan="2">Action</th>
+                <th colspan="2">Actions</th> 
             </tr>
         </thead>
 
@@ -36,20 +41,20 @@
 
             @forelse ($categories as $category)
                 <tr>
-                    <td></td>
+                    <td>    </td>
                     <td>{{ $category->id }}</td>
                     <td>{{ $category->name }}</td>
-                    <td>{{ $category->parent_id }}</td>
-                    <td>{{ $category->created_at }}</td>
+                    <td class="">{{ $category->parent_id}}</td>
+                    <td>{{ $category->created_at }}</td> 
                     <td>
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <a class="btn btn-sm btn-outline-success "
-                                        href="{{ route('category.edit', $category->id) }}">Edit</a>
+                                        href="{{ route('dashboard.category.edit', $category->id) }}">Edit</a>
                                 </div>
-                                <div class="col-md-2">
-                                    <form action="{{route('category.destroy',$category->id)}}" method="post">
+                                <div class="col-md-3">
+                                    <form action="{{route('dashboard.category.destroy',$category->id)}}" method="post">
                                         <input type="hidden" name="_method" value="delete">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     {{-- <input type="hidden" name="token" value="{{ csrf_token('some-name') }}"> --}}

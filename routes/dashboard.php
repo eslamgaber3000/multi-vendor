@@ -5,7 +5,19 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\dashboard\CategoryController;
 
 
+Route::group(
+    
+    [
+            'middleware'=>'auth',
+            'as'=>'dashboard.',
+            
 
-Route::resource('dashboard/category',CategoryController::class);
-Route::get('/dashboard', [DashboardController::class,'index'])->middleware(['auth']);
+                ],function(){
 
+
+
+    Route::resource('dashboard/category',CategoryController::class);
+    Route::get('/dashboard', [DashboardController::class,'index']);
+    
+    
+});
