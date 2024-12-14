@@ -23,7 +23,7 @@
 
         <div class="form-group">
             <label for="">Image</label>
-            <input name="image" type="file" class="form-control">
+            <input name="image" type="file" class="form-control" accept="image/*">
         </div>
         
             @if ($category->image)
