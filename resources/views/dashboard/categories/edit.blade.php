@@ -6,7 +6,7 @@
     <form action="{{route('dashboard.category.update',$category->id)}}" method="post" enctype="multipart/form-data">
 
         <input type="hidden" name="_method" value="Patch">
-        @include('dashboard.categories._form')
+        @include('dashboard.categories._form',['button_label'=>'Update'])
     </form>
 </div>
 @endsection

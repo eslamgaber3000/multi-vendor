@@ -51,16 +51,8 @@ class CategoryController extends Controller
          //image upload  steps
         //1-make enc-type   2- check if user add image or not 3- move image form temp place to my pc
         // 4- store image name in database
-        if($request->hasFile('image')){
-        
-
-            $file=$request->file('image');
-            $path=$file->store('uploads',[
-                'disk'=>'public'
-            ]);
-            $data['image']=$path;
-            // dd($path);
-        }
+       
+        $data['image']=$this->uploadImage($request);
 
       
         Category::create($data);
@@ -122,15 +114,8 @@ class CategoryController extends Controller
 
         $data= $request->all();
 
-        if($request->hasFile('image')){
-        
-
-            $file=$request->file('image');
-            $path=$file->store('uploads',[
-                'disk'=>'public'
-            ]);
-            $data['image']=$path;
-        }
+       
+        $data['image']=$this->uploadImage($request);
         
         //validation
 
@@ -165,5 +150,18 @@ class CategoryController extends Controller
 
 
         return redirect()->route('dashboard.category.index')->with('success','deleted successfully');
+    }
+
+
+    private function uploadImage(Request $request){
+        if(!$request->image){
+             return ;
+        }
+            $file=$request->file('image');
+            $path=$file->store('uploads',[
+                'disk'=>'public'
+            ]);
+           return $path ;
+        
     }
 }
