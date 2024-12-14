@@ -27,7 +27,7 @@
         </div>
         
             @if ($category->image)
-            <img src="{{asset('storage/'.$category->image)}}" alt="" height="50" >
+            <img src="{{asset('storage/'.$category->image)}}" alt="" height="60" >
             @endif
         <div class="form-group">
             <label for="">status</label>

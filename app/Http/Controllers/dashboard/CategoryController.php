@@ -59,6 +59,7 @@ class CategoryController extends Controller
                 'disk'=>'public'
             ]);
             $data['image']=$path;
+            // dd($path);
         }
 
       
