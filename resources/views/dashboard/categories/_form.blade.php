@@ -25,7 +25,10 @@
             <label for="">Image</label>
             <input name="image" type="file" class="form-control">
         </div>
-
+        
+            @if ($category->image)
+            <img src="{{asset('storage/'.$category->image)}}" alt="" height="50" >
+            @endif
         <div class="form-group">
             <label for="">status</label>
             

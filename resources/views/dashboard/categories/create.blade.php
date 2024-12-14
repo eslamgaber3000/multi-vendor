@@ -3,7 +3,7 @@
 @section('content-header','Categories')
 @section('content-wrapper')
 <div class="content">
-    <form action="{{route('dashboard.category.store')}}" method="post">
+    <form action="{{route('dashboard.category.store')}}" method="post" enctype="multipart/form-data">
 
         @include('dashboard.categories._form')
     </form>

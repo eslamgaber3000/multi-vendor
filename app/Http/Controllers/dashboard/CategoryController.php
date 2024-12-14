@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -36,6 +37,7 @@ class CategoryController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
+    
     {
         $slug=$request->merge([
 
@@ -44,8 +46,23 @@ class CategoryController extends Controller
 
         
 
-        $category=$request->all();
-        Category::create($category);
+        $data=$request->all();
+
+         //image upload  steps
+        //1-make enc-type   2- check if user add image or not 3- move image form temp place to my pc
+        // 4- store image name in database
+        if($request->hasFile('image')){
+        
+
+            $file=$request->file('image');
+            $path=$file->store('uploads',[
+                'disk'=>'public'
+            ]);
+            $data['image']=$path;
+        }
+
+      
+        Category::create($data);
         return redirect()->route('dashboard.category.index')->with('success','Created successfully');
     }
 
@@ -98,14 +115,33 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $Updated_category = $request->all();
 
+        $category=Category::findOrFail($id);
+        $old_Image=$category->image;
+
+        $data= $request->all();
+
+        if($request->hasFile('image')){
+        
+
+            $file=$request->file('image');
+            $path=$file->store('uploads',[
+                'disk'=>'public'
+            ]);
+            $data['image']=$path;
+        }
         
         //validation
 
         //update operation
-        $category=Category::findOrFail($id);
-        $category->update($Updated_category);
+        $category->update($data);
+
+        //check if update old image delete old image and save the new one 
+        if($old_Image && isset($data['image']))
+
+        //delete old image 
+        Storage::disk('public')->delete($old_Image);
+
         //redirect method with flash message
         return redirect()->route('dashboard.category.index')->with('success','Updated successfully');
 
@@ -116,10 +152,16 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
+        $category=Category::findOrFail($id);
+        
         // $category=Category::where('id',$id)->delete();
-        // $category->delete();
+        // $category=Category::destroy($id);
+        $category->delete();
 
-        $category=Category::destroy($id);
+        if($category->image){
+            Storage::disk('public')->delete($category->image);
+        }
+
 
         return redirect()->route('dashboard.category.index')->with('success','deleted successfully');
     }
