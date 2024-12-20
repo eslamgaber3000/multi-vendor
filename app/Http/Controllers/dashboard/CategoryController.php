@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
@@ -38,7 +39,7 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     
     {
         $slug=$request->merge([
@@ -49,13 +50,7 @@ class CategoryController extends Controller
         
 
         $data=$request->all();
-        $request->validate([
-
-            'name'=>['required','unique:categories,name','string','max:255','min:3'],
-            'parent_id'=>['nullable','int','exists:categories,id'],
-            'image'=>['image','max:1048576' ,'dimensions:min_width=100,min_height=200'],
-            'status'=>['in:exist,archived']
-        ]);
+        // $request->validate(Category::rules());
            
          //image upload  steps
         //1-make enc-type   2- check if user add image or not 3- move image form temp place to my pc
@@ -123,6 +118,8 @@ class CategoryController extends Controller
 
         $data= $request->all();
 
+        $request->validate(Category::rules($id));
+        
         //check on the value of image field
        if($this->uploadImage($request)){
 
@@ -130,7 +127,7 @@ class CategoryController extends Controller
            $data['image']=$this->uploadImage($request);
        }
         
-        //validation
+      
 
         //update operation
         $category->update($data);
