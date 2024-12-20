@@ -28,6 +28,8 @@ class CategoryController extends Controller
     public function create()
     {
         $parents=Category::all();
+
+
         // dd($categories);
         $category=new Category();
         return view('dashboard.categories.create',compact('parents','category'));
@@ -47,7 +49,14 @@ class CategoryController extends Controller
         
 
         $data=$request->all();
+        $request->validate([
 
+            'name'=>['required','unique:categories,name','string','max:255','min:3'],
+            'parent_id'=>['nullable','int','exists:categories,id'],
+            'image'=>['image','max:1048576' ,'dimensions:min_width=100,min_height=200'],
+            'status'=>['in:exist,archived']
+        ]);
+           
          //image upload  steps
         //1-make enc-type   2- check if user add image or not 3- move image form temp place to my pc
         // 4- store image name in database
@@ -114,8 +123,12 @@ class CategoryController extends Controller
 
         $data= $request->all();
 
-       
-        $data['image']=$this->uploadImage($request);
+        //check on the value of image field
+       if($this->uploadImage($request)){
+
+           
+           $data['image']=$this->uploadImage($request);
+       }
         
         //validation
 
@@ -153,9 +166,10 @@ class CategoryController extends Controller
     }
 
 
+    //use this function to prevent redunduncy of code to use it in both create and update
     private function uploadImage(Request $request){
         if(!$request->image){
-             return ;
+             return null;
         }
             $file=$request->file('image');
             $path=$file->store('uploads',[
