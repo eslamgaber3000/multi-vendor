@@ -20,7 +20,7 @@
         value="{{ old('name') ?? $category->name }}">
     
     @if ($errors->has('name'))
-        <div class="invalid-feedback">
+        <div class="invalid-feedback" >
             {{ $errors->first('name') }}
         </div>
     @endif
