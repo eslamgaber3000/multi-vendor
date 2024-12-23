@@ -1,4 +1,4 @@
-{{-- @if ($errors->any())
+@if ($errors->any())
 
     <div class="alert alert-danger">
         <h3>Erorr Occuired</h3>
@@ -10,20 +10,16 @@
             @endforeach
         </ul>
     </div>
-@endif --}}
+@endif
 
 @csrf
 <div class="form-group">
     <label for="">Name</label>
-    {{-- check if he the value of name  in case update and create using normal logic  using class dirctive to give bootsrap calss --}}
-    <input name="name" type="text" @class(['form-control', 'is-invalid' => $errors->has('name')]) 
-        value="{{ old('name') ?? $category->name }}">
+    {{-- <input name="name" type="text" @class(['form-control', 'is-invalid' => $errors->has('name')]) 
+        value="{{ old('name') ?? $category->name }}"> --}}
+        <x-form.input    value="{{$category->name}}" name="name"  />
     
-    @if ($errors->has('name'))
-        <div class="invalid-feedback" >
-            {{ $errors->first('name') }}
-        </div>
-    @endif
+    
 </div>
 
 <div class="form-group">

@@ -10,18 +10,9 @@
 
 
 @section('content-wrapper')
-
-    @if (Session::has('success'))
-        <div class="alert alert-success">
-            {{ session()->get('success') }}
-        </div>
-    @endif
-    @if (Session::has('info'))
-        <div class="alert alert-info">
-            {{ session()->get('info') }}
-        </div>
-    @endif
-
+{{-- make component for session  --}}
+<x-alert  type="success" />
+<x-alert  type="info" />
     <div class="mb-3 ml-5">
         <a class="btn btn-sm btn-outline-primary" href="{{ route('dashboard.category.create') }}">Create</a>
     </div>
