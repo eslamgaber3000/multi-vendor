@@ -14,10 +14,10 @@
 
 @csrf
 <div class="form-group">
-    <label for="">Name</label>
+    
     {{-- <input name="name" type="text" @class(['form-control', 'is-invalid' => $errors->has('name')]) 
         value="{{ old('name') ?? $category->name }}"> --}}
-        <x-form.input    value="{{$category->name}}" name="name"  />
+        <x-form.input    :value="$category->name" label="Category Name" name="name" role='input' />
     
     
 </div>
@@ -42,29 +42,21 @@
 </div>
 
 <div class="form-group">
-    <label for="">Description</label>
+  
     {{-- check on the old value for input description --}}
-    <textarea name="description" type="text" class=" form-control">{{ old('description') ?? $category->description }}  </textarea>
-
-    @error('description')
-        <div class="invalid-feedback">
-            {{ $message }}
-        </div>
-    @enderror
+<x-form.textarea label="Category description"   name="description" value="{{$category->description}}"/>
 </div>
 
-<div class="form-group">
-    <label for="">Image</label>
-    <input name="image" type="file" @class(['form-control','is-invalid'=>$errors->has('image')]) accept="image/*">
-    @error('image')
-        <div class="invalid-feedback">{{$message}}</div>
-    @enderror
+<div class="form-group">  
+<x-form.input name="image" type="file" label="Category Image"  accept="image/*"/>
 </div>
 
 @if ($category->image)
     <img src="{{ asset('storage/' . $category->image) }}" alt="" height="60">
 @endif
 <div class="form-group">
+
+
     <label for="">status</label>
 
     <div>
