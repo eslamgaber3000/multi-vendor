@@ -201,7 +201,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div>
         </div>
       </div>
-  @include('layouts.partials.sidebar',['link' => 'new_sidebar'])
+      {{-- @include('layouts.partials.sidebar',['link' => 'new_sidebar']) --}}
+      <x-nav/>
     </div>
     <!-- /.sidebar -->
   </aside>

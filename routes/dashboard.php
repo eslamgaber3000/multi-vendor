@@ -17,7 +17,7 @@ Route::group(
 
 
     Route::resource('dashboard/category',CategoryController::class);
-    Route::get('/dashboard', [DashboardController::class,'index']);
+    Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
     
     
 });
