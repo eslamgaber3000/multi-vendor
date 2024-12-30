@@ -60,28 +60,23 @@
     <label for="">status</label>
 
     <div>
-          @error('status')
-            <div class="text-danger">
-            {{ $message }}
-        </div>
-        @enderror
 
-        <div class="form-check">
-            {{-- check on the old value for input status to be check in case update or create --}}
-            <input class="form-check-input" name="status" type="radio" value="exist" @checked(old('status', $category->status) == 'exist')>
-            <label class="form-check-label">
-                exist
-            </label>
+       
+        
+
+        {{-- check on the old value for input status to be check in case update or create --}}
           
+
            
-        </div>
-        <div class="form-check">
-            {{-- check on the old value for input status to be check in case update or create --}}
-            <input class="form-check-input" type="radio" name="status" value="archived" @checked(old('status', $category->status) == 'archived')>
-            <label class="form-check-label">
-                archived
-            </label>
-        </div>
+         <x-form.radio
+     :options="['Exist'=>'exist' ,'Archived'=>'archived']"
+         type="radio"
+          name="status"
+           value="archived" 
+           label="archived"
+        check_value="{{ $category->status}}"
+        />
+
     </div>
 
 </div>
