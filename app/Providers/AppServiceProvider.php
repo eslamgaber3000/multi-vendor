@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
 
@@ -31,5 +32,8 @@ class AppServiceProvider extends ServiceProvider
             }
 
         },'this name can not be use it choose other name') ;
+
+
+        Paginator::useBootstrap();
     }
 }

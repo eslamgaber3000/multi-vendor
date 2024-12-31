@@ -17,8 +17,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        //user query builder in search()
 
-        $categories=Category::all();
+        $categories=Category::paginate(3);
+        // dd($categories);
          //collection class
         return view('dashboard.categories.index',compact('categories'));
     }
