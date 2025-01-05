@@ -17,12 +17,27 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //user query builder in search()
+     //catch data from url which send as query parameter
+        $request=request();
+    //query builder of category model to can apply if condition on it 
+        $query=Category::query();
 
-        $categories=Category::paginate(3);
-        // dd($categories);
-         //collection class
-        return view('dashboard.categories.index',compact('categories'));
+        //check if there where name send from user
+        if($name=$request->query('name')){
+
+            $query->where('name','LIKE',"%{$name}%");
+
+
+        }
+        if($status=$request->query('status')){
+
+            $query->where('status','=',$status);
+            
+
+        }
+        $categories=$query->paginate(1);
+        
+        return view('dashboard.categories.index',compact('categories','name'));
     }
 
     /**

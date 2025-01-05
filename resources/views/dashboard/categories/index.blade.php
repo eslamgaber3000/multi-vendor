@@ -14,12 +14,12 @@
     {{-- filter part --}}
 <form class="d-flex justify-content-between my-4"  method="get" action="{{URL::current()}}">
 
-<x-form.input name="name" placeholder="Name" class="mx-1"/>
+<x-form.input name="name" placeholder="Name" class="mx-1" :value="$name"/>
 
 <select name="status" class="form-control mx-2">
 <option value="">ALL</option>
-<option value="exists">Exists</option>
-<option value="archived">Archived</option>
+<option value="exist" @selected(request('status')=="exist")>Exists</option>
+<option value="archived" @selected(request('status')=="archived")>Archived</option>
 </select>
 <button type="submit" class="btn btn-dark mx-1">Filter</button>
 
@@ -84,7 +84,7 @@
     </div>
    
 
-        {{ $categories->links() }}
+        {{ $categories->withQueryString()->links() }}
 
     
 
