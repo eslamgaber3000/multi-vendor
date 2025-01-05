@@ -35,7 +35,7 @@ class CategoryController extends Controller
             
 
         }
-        $categories=$query->paginate(1);
+        $categories=$query->paginate(4);
         
         return view('dashboard.categories.index',compact('categories','name'));
     }

@@ -34,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         },'this name can not be use it choose other name') ;
 
 
-        Paginator::useBootstrap();
+       Paginator::useBootstrap();
+       //Paginator::defaultView('pagination.customPagination');
     }
 }
