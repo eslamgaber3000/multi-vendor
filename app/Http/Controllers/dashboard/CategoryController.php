@@ -17,28 +17,36 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //catch data from query string 
-        $query=Category::query();
+        //probem : we need to show the name of parent category instead of the number of parent_id (parent_name insted of parent_id).    
 
-        
+        // selet categories.*, parents.name as parent_name
+        // from categories LEFT JOIN Categories as Parents 
+        // ON parents.id = categories.parent_id
 
-        if($name=request()->query('name')){
 
-         $query->where('name','like',"%{$name}%");
-        }
-      
-        
-        if( $status=request()->query('status')){
+        //using model query builder for filtering
+        // $query = Category::query();
+        // if ($name = request()->query('name')) {
 
-            $query->where('status','=',"$status");
-        }
-       
-        // dd($name,$status);
-        //user query builder in search()
+        //     $query->where('name', 'like', "%{$name}%");
+        // }
 
-        $categories=$query->paginate(1);
-       
-        return view('dashboard.categories.index',compact('categories'));
+
+        // if ($status = request()->query('status')) {
+
+        //     $query->where('status', '=', "$status");
+        // }
+        // $categories = $query->paginate(1);
+
+        // $categories = Category::status('archived')->paginate();
+
+        //use localscope for appling filter for ceeping controller clean
+        $categories = Category::leftJoin('categories as parents', 'categories.parent_id', '=', 'parents.id')
+            ->select(['categories.*', 'parents.name as parent_name'])
+            ->filter(request()->query())
+            ->orderBy('categories.created_at', 'desc')
+            ->paginate();
+        return view('dashboard.categories.index', compact('categories'));
     }
 
     /**
@@ -46,39 +54,39 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $parents=Category::all();
+        $parents = Category::all();
 
 
         // dd($categories);
-        $category=new Category();
-        return view('dashboard.categories.create',compact('parents','category'));
+        $category = new Category();
+        return view('dashboard.categories.create', compact('parents', 'category'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(CategoryRequest $request)
-    
-    {
-        $slug=$request->merge([
 
-            'slug'=>Str::slug($request->post('name'))
+    {
+        $slug = $request->merge([
+
+            'slug' => Str::slug($request->post('name'))
         ]);
 
-        
 
-        $data=$request->all();
+
+        $data = $request->all();
         // $request->validate(Category::rules());
-           
-         //image upload  steps
+
+        //image upload  steps
         //1-make enc-type   2- check if user add image or not 3- move image form temp place to my pc
         // 4- store image name in database
-       
-        $data['image']=$this->uploadImage($request);
 
-      
+        $data['image'] = $this->uploadImage($request);
+
+
         Category::create($data);
-        return redirect()->route('dashboard.category.index')->with('success','Created successfully');
+        return redirect()->route('dashboard.category.index')->with('success', 'Created successfully');
     }
 
     /**
@@ -94,35 +102,34 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-         
-        try{
 
-            $category=Category::findOrFail($id);
+        try {
 
-        }catch(Exception $e ){
+            $category = Category::findOrFail($id);
+        } catch (Exception $e) {
 
-            return redirect()->route('dashboard.category.index')->with('info','record not found');
+            return redirect()->route('dashboard.category.index')->with('info', 'record not found');
         }
 
-        
-        
+
+
         //select * from categories where  id <> $id And  (parent_id IsNull or parent_id <> $id)  
-    
-
-        $parents=Category::where('id','<>',$id)
-        ->where(function($query) use($id){
 
 
-           $query->whereNull('parent_id')
-            ->orwhere('parent_id','<>',$id);
-        })
-        ->get();
-       
+        $parents = Category::where('id', '<>', $id)
+            ->where(function ($query) use ($id) {
+
+
+                $query->whereNull('parent_id')
+                    ->orwhere('parent_id', '<>', $id);
+            })
+            ->get();
+
         //->where('id','<>',$id)  dd();
 
-      
 
-        return view('dashboard.categories.edit',compact('category','parents'));
+
+        return view('dashboard.categories.edit', compact('category', 'parents'));
     }
 
     /**
@@ -131,34 +138,33 @@ class CategoryController extends Controller
     public function update(Request $request, string $id)
     {
 
-        $category=Category::findOrFail($id);
-        $old_Image=$category->image;
+        $category = Category::findOrFail($id);
+        $old_Image = $category->image;
 
-        $data= $request->all();
+        $data = $request->all();
 
         $request->validate(Category::rules($id));
-        
-        //check on the value of image field
-       if($this->uploadImage($request)){
 
-           
-           $data['image']=$this->uploadImage($request);
-       }
-        
-      
+        //check on the value of image field
+        if ($this->uploadImage($request)) {
+
+
+            $data['image'] = $this->uploadImage($request);
+        }
+
+
 
         //update operation
         $category->update($data);
 
         //check if update old image delete old image and save the new one 
-        if($old_Image && isset($data['image']))
+        if ($old_Image && isset($data['image']))
 
-        //delete old image 
-        Storage::disk('public')->delete($old_Image);
+            //delete old image 
+            Storage::disk('public')->delete($old_Image);
 
         //redirect method with flash message
-        return redirect()->route('dashboard.category.index')->with('success','Updated successfully');
-
+        return redirect()->route('dashboard.category.index')->with('success', 'Updated successfully');
     }
 
     /**
@@ -166,31 +172,31 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $category=Category::findOrFail($id);
-        
+        $category = Category::findOrFail($id);
+
         // $category=Category::where('id',$id)->delete();
         // $category=Category::destroy($id);
         $category->delete();
 
-        if($category->image){
+        if ($category->image) {
             Storage::disk('public')->delete($category->image);
         }
 
 
-        return redirect()->route('dashboard.category.index')->with('success','deleted successfully');
+        return redirect()->route('dashboard.category.index')->with('success', 'deleted successfully');
     }
 
 
     //use this function to prevent redunduncy of code to use it in both create and update
-    private function uploadImage(Request $request){
-        if(!$request->image){
-             return null;
+    private function uploadImage(Request $request)
+    {
+        if (!$request->image) {
+            return null;
         }
-            $file=$request->file('image');
-            $path=$file->store('uploads',[
-                'disk'=>'public'
-            ]);
-           return $path ;
-        
+        $file = $request->file('image');
+        $path = $file->store('uploads', [
+            'disk' => 'public'
+        ]);
+        return $path;
     }
 }
