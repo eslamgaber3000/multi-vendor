@@ -10,17 +10,6 @@
 {{-- make component for session --}}
 <x-alert type="success" />
 <x-alert type="info" />
-
-<<<<<<< HEAD
-<x-form.input name="name" placeholder="Name" class="mx-1" :value="$name"/>
-
-<select name="status" class="form-control mx-2">
-<option value="">ALL</option>
-<option value="exist" @selected(request('status')=="exist")>Exists</option>
-<option value="archived" @selected(request('status')=="archived")>Archived</option>
-</select>
-<button type="submit" class="btn btn-dark mx-1">Filter</button>
-=======
 {{-- filter part --}}
 <form class="d-flex justify-content-between my-4" method="get" action="{{URL::current()}}">
 
@@ -32,8 +21,6 @@
         <option value="archived" @selected(request('status')=="archived" )>Archived</option>
     </select>
     <button type="submit" class="btn btn-dark mx-1">Filter</button>
->>>>>>> f85f7067895cbe944629b49628574654afcd2471
-
 </form>
 
 <table class="table">
