@@ -5,7 +5,7 @@ return [
 
 [
     'title'=>'Category',
-    'route'=>'dashboard.category.create',
+    'route'=>'dashboard.category.index',
     'icon'=>'far fa-circle nav-icon',
     'active'=>'dashboard.category.*'
 ],

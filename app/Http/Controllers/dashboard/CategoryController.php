@@ -172,17 +172,17 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        $category = Category::findOrFail($id);
+        // $category = Category::findOrFail($id);
 
         // $category=Category::where('id',$id)->delete();
         // $category=Category::destroy($id);
         $category->delete();
-
-        if ($category->image) {
-            Storage::disk('public')->delete($category->image);
-        }
+        //when use softDelete stop the code we do to delete the image from disk becouse we need to restore not permenently 
+        // if ($category->image) {
+        //     Storage::disk('public')->delete($category->image);
+        // }
 
 
         return redirect()->route('dashboard.category.index')->with('success', 'deleted successfully');
@@ -200,5 +200,37 @@ class CategoryController extends Controller
             'disk' => 'public'
         ]);
         return $path;
+    }
+
+    public function trash(){
+
+        //show deleted rows 
+
+        $categories=Category::onlyTrashed()->paginate();
+        //dd($categories);
+        return view('dashboard.categories.trash',compact('categories'));
+    }
+
+    //trash restore need id 
+
+    public function restore($id){
+
+        //find category which is only and restore it
+        
+        $category=Category::onlyTrashed()->findOrFail($id);
+        $category->restore();
+        return redirect()->route('dashboard.category.trash')->with('success','restored successfully');
+    }
+    public function forceDelete($id){
+
+        //find category which is only and restore it
+        
+        $category=Category::onlyTrashed()->findOrFail($id);
+        $category->forceDelete();
+        //when use softDelete stop the code we do to delete the image from disk becouse we need to restore not permenently 
+        if ($category->image) {
+            Storage::disk('public')->delete($category->image);
+        }
+        return redirect()->route('dashboard.category.trash')->with('success','restored successfully');
     }
 }
