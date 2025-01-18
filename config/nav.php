@@ -11,10 +11,10 @@ return [
 ],
 [
     'title'=>'Product',
-    'route'=>'dashboard.dashboard',
+    'route'=>'dashboard.product.index',
     'icon'=>'far fa-circle nav-icon',
     'badge'=>'New',
-    'active'=>'dashboard.dashboard'
+    'active'=>'dashboard.product.*'
 
 ],
 [

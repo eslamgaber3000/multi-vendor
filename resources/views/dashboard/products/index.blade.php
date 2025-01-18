@@ -1,9 +1,8 @@
 @extends('layouts.dashboard')
-@section('content-header', 'Trash')
+@section('content-header', 'Products')
 @section('breadcrumb')
 @parent
-<li class="breadcrumb-item active">Categories</li>
-<li class="breadcrumb-item">Trash</li>
+<li class="breadcrumb-item active">Products</li>
 @endsection
 
 
@@ -13,7 +12,9 @@
 <x-alert type="info" />
 {{-- filter part --}}
 <form class="d-flex justify-content-between my-4" method="get" action="{{URL::current()}}">
+
     <x-form.input name="name" placeholder="Name" :value="request('name')" class="mx-1" />
+
     <select name="status" class="form-control mx-2">
         <option value="">ALL</option>
         <option value="exist" @selected(request('status')=="exist" )>Exists</option>
@@ -29,35 +30,37 @@
             <th>ID</th>
             <th>Name</th>
             <th>Status</th>
-            <th>Deleted At</th>
+            <th>store</th>
+            <th>category</th>
+            <th>Created At</th>
             <th colspan="2">Actions</th>
         </tr>
     </thead>
 
     <tbody>
-        @forelse ($categories as $category)
+
+        @forelse ($products as $product)
         <tr>
-            <td> <img src="{{ asset('storage/' . $category->image) }}" alt="" height="50"></td>
-            <td>{{ $category->id }}</td>
-            <td>{{ $category->name }}</td>
-            <td class="">{{ $category->status }}</td>
-            <td>{{ $category->deleted_at}}</td>
+            <td> <img src="{{ asset('storage/' . $product->image) }}" alt="" height="50"></td>
+            <td>{{ $product->id }}</td>
+            <td>{{ $product->name }}</td>
+            <td class="">{{ $product->status }}</td>
+            <td class="">{{ $product->store_id}}</td>
+            <td class="">{{ $product->category_id}}</td>
+            <td>{{ $product->created_at }}</td>
             <td>
                 <div class="container">
                     <div class="row">
+                        <div class="col-md-3 mr-2">
+                            <a class="btn btn-sm btn-outline-success "
+                                href="{{ route('dashboard.product.edit', $product->id) }}">Edit</a>
+                        </div>
                         <div class="col-md-3">
-                            <form action="{{ route('dashboard.category.restore', $category->id) }}" method="post">
-                                @method('put')
+                            <form action="{{ route('dashboard.product.destroy', $product->id) }}" method="post">
+                                <input type="hidden" name="_method" value="delete">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 {{-- <input type="hidden" name="token" value="{{ csrf_token('some-name') }}"> --}}
 
-                                <button type="submit" class="btn btn-sm btn-outline-info">Restore</button>
-                            </form>
-                        </div>
-                        <div class="col-md-3 ml-2">
-                            <form action="{{ route('dashboard.category.force-delete', $category->id) }}" method="post">
-                                <input type="hidden" name="_method" value="delete">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                             </form>
                         </div>
@@ -68,7 +71,7 @@
         @empty
 
         <tr>
-            <td colspan="6">
+            <td colspan="9">
                 No data has defined yet
             </td>
         </tr>
@@ -76,9 +79,10 @@
     </tbody>
 </table>
 <div class="my-2 mx-2">
-    <a class="btn btn-sm btn-outline-primary" href="{{ route('dashboard.category.index') }}">Back</a>
+    <a class="btn btn-sm btn-outline-primary mr-2" href="{{ route('dashboard.product.create') }}">Create</a>
+    {{-- <a class="btn btn-sm btn-outline-dark" href="{{ route('dashboard.product.trash') }}">Trash</a> --}}
 </div>
-{{ $categories->withQueryString()->links() }}
+{{ $products->withQueryString()->links() }}
 
 
 

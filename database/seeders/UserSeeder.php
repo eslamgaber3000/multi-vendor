@@ -18,12 +18,12 @@ class UserSeeder extends Seeder
 
 
 
-    DB::table('users')->insert([
+    // DB::table('users')->insert([
 
-       'name'=>'system Admin',
-            'email'=>'eslam556547@gmail.com',
-            'password'=>Hash::make('password'),
-            'phone_number'=>'01016403403'
-    ]);
+    //    'name'=>'system Admin',
+    //         'email'=>'eslam556547@gmail.com',
+    //         'password'=>Hash::make('password'),
+    //         'phone_number'=>'01016403403'
+    // ]);
     }
 }

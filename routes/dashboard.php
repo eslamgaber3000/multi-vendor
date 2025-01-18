@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\dashboard\CategoryController;
-
+use App\Http\Controllers\dashboard\productController;
 
 Route::group(
     
@@ -22,6 +22,7 @@ Route::group(
     Route::put('/category/{category}/restore',[CategoryController::class ,'restore'])->name('category.restore'); 
     Route::delete('/category/{category}/force-delete',[CategoryController::class,'forceDelete'])->name('category.force-delete');
     Route::resource('dashboard/category',CategoryController::class);
+    Route::resource('/dashboard/product',productController::class);
     Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
     
     
