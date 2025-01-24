@@ -42,8 +42,18 @@ class CategoryController extends Controller
         // $categories = Category::status('archived')->paginate();
 
         //use localscope for appling filter for ceeping controller clean
+        //we can use with() and giv it the name of relatin to get parent_id with(parent)
         $categories = Category::leftJoin('categories as parents', 'categories.parent_id', '=', 'parents.id')
             ->select(['categories.*', 'parents.name as parent_name'])
+            
+            // ->select("categories.*")                                 //should be writen if I need to use selectRow() or addSelect() 
+            //  ->addSelect(DB::row())                                  // return number of products in each category 
+            //->selectRaw('(select count(*) from products where category_id=categories.id AND `status`='active' )as products_count')
+            ->withCount(["products as products_number"=>
+                function($query){
+                    $query->where('status','=','active');
+                }
+            ]) 
             ->filter(request()->query())
             ->orderBy('categories.created_at', 'desc')
             ->paginate();
@@ -94,9 +104,12 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Category $category)
     {
-        //
+        return view('dashboard.categories.show',[
+
+            'category'=>$category
+        ]);
     }
 
     /**

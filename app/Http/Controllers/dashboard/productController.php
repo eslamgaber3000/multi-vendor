@@ -21,7 +21,9 @@ class productController extends Controller
         // }else{
             
         // }
-        $products=Product::paginate();
+
+        //use eager loading instead of lazy loading to inhance the data retrifal
+        $products=Product::with(['category','store'])->paginate();
         // dd($user_id);
 
         // dd($products);

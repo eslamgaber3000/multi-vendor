@@ -29,6 +29,7 @@
             <th>image</th>
             <th>ID</th>
             <th>Name</th>
+            <th>Products#</th>
             <th>Parent</th>
             <th>Status</th>
             <th>Created At</th>
@@ -42,8 +43,9 @@
         <tr>
             <td> <img src="{{ asset('storage/' . $category->image) }}" alt="" height="50"></td>
             <td>{{ $category->id }}</td>
-            <td>{{ $category->name }}</td>
-            <td class="">{{ $category->parent_name}}</td>
+            <td><a href="{{route('dashboard.category.show',$category->id)}}">   {{ $category->name }} </a></td>
+            <td>{{ $category->products_number }}</td>   {{-- show number of products inside every category --}}
+            <td class="">{{ $category->parent->name }}</td>
             <td class="">{{ $category->status }}</td>
             <td>{{ $category->created_at }}</td>
             <td>
@@ -69,7 +71,7 @@
         @empty
 
         <tr>
-            <td colspan="7">
+            <td colspan="8">
                 No data has defined yet
             </td>
         </tr>

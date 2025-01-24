@@ -17,6 +17,17 @@ class Product extends Model
         'name','slug','description','image','store_id','category_id','rating','options','featured','price','compare_price','status'
     ];
 
+    //Create relationship between category and Product
+    public function category(){
+
+        return $this->belongsTo(Category::class,'category_id','id');
+    }
+    //Create  one to many relationship between store and Product
+    public function store(){
+
+        return $this->belongsTo(Stores::class,'store_id','id');
+    }
+
 
     protected static function booted(){
     

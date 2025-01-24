@@ -19,4 +19,10 @@ class Stores extends Model
     public $incrementing = true;
 
 
+
+
+    //create relationship between store and product
+    public function products(){
+        return $this->hasMany(Product::class,'store_id','id');
+    }
 }

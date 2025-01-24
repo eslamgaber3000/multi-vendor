@@ -22,6 +22,31 @@ class Category extends Model
         'status'
     ];
 
+
+    //create relation between category and him self to get parent name
+
+    public function parent(){
+
+        return $this->belongsTo(Category::class,'parent_id','id')
+        ->withDefault(
+            ['name'=>'--']
+        );
+        //use withDefoalt to avoid return null object
+
+    }
+
+    //create relaion between model and himslef to get from category how many childern he has
+    public function childern(){
+        return $this->hasMany(Category::class,'parent_id','id');
+        
+        ;
+    }
+
+    //Create relationship category and product
+    public function products(){
+        return $this->hasMany(Product::class,'category_id','id');
+    }
+
     //create local scope for filtering categories
     public static function scopeExist(Builder $builder)
     {
