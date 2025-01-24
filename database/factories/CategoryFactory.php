@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Faker\Factory as FakerFactory;
+use Bezhanov\Faker\Provider\Commerce;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
  */
@@ -16,13 +18,17 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
-        $name=$this->faker->words(2,true);
+          // Create a Faker instance and add the Commerce provider
+          $faker = FakerFactory::create();
+          $faker->addProvider(new Commerce($faker));
+
+        $name = $faker->department; // This will now work with the Commerce provider
+
         return [
-            'name'=>$name,
-            'slug'=>Str::slug($name),
-            'description'=>$this->faker->sentence(15),
-            'image'=>$this->faker->imageUrl,
-            
+            'name' => $name,
+            'slug' => Str::slug($name),
+            'description' => $faker->sentence(15),
+            'image' => $faker->imageUrl(),
         ];
     }
 }
