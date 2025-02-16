@@ -1,9 +1,11 @@
 <?php 
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\dashboard\CategoryController;
 use App\Http\Controllers\dashboard\productController;
+use App\Http\Controllers\Dashboard\ProfileController;
+use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Route;
+
 
 Route::group(
     
@@ -24,6 +26,8 @@ Route::group(
     Route::resource('dashboard/category',CategoryController::class);
     Route::resource('/dashboard/product',productController::class);
     Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
-    
+    //route for User profile 
+    Route::get('profile',[ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('profile',[ProfileController::class, 'update'])->name('profile.update');
     
 });

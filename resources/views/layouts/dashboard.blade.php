@@ -179,7 +179,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             
        
           @auth
-          <a href="#" class="d-block">{{Auth::user()->name}}</a>
+          <a href="{{ route('dashboard.profile.edit') }}" class="d-block">{{Auth::user()->name}}</a>
           <form action="{{route('logout')}}" method="post">
             {{-- <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" /> --}}
            {{-- <input type="hidden" name="_token" value="{{csrf_token()}}">  --}}

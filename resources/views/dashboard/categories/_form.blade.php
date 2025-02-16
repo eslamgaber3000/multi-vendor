@@ -54,29 +54,22 @@
 @if ($category->image)
     <img src="{{ asset('storage/' . $category->image) }}" alt="" height="60">
 @endif
+
 <div class="form-group">
-
-
     <label for="">status</label>
 
     <div>
 
-       
-        
-
         {{-- check on the old value for input status to be check in case update or create --}}
-          
-
            
          <x-form.radio
-     :options="['Exist'=>'exist' ,'Archived'=>'archived']"
-         type="radio"
-          name="status"
-           value="archived" 
-           label="archived"
+        :options="['Exist'=>'exist' ,'Archived'=>'archived']"
+        type="radio"
+        name="status"
+        value="archived" 
+        label="archived"
         check_value="{{ $category->status}}"
         />
-
     </div>
 
 </div>

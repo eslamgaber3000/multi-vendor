@@ -4,8 +4,15 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use App\Models\Stores;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str ;
+use Illuminate\Support\Str;
+use Faker\Factory as FakerFactory;
+use Bezhanov\Faker\Provider\Commerce;
+
+
+
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
@@ -18,7 +25,10 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $name=$this->faker->productName;
+
+        $faker = FakerFactory::create();
+        $faker->addProvider(new Commerce($faker));
+        $name=$faker->productName;
         return [
             'name'=>$name,
             'slug'=>Str::slug($name),

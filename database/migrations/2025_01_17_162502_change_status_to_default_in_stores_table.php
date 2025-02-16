@@ -12,7 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('stores', function (Blueprint $table) {
-            $table->enum('status',['exist','archived'])->default('exist')->change();
+            $table->dropColumn('status');
+        });
+        
+        Schema::table('stores', function (Blueprint $table) {
+            $table->enum('status', ['exist', 'archived'])->default('exist');
         });
     }
 

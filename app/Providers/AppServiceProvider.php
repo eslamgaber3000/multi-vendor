@@ -37,4 +37,7 @@ class AppServiceProvider extends ServiceProvider
        Paginator::useBootstrap();
        //Paginator::defaultView('pagination.customPagination');
     }
+    
+
+    
 }
