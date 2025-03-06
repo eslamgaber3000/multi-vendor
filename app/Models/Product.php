@@ -45,4 +45,16 @@ class Product extends Model
         //use class to applay  global scope
         static::addGlobalScope('store', new StoreScope()); 
     }
+
+    //many to many relationship between porduct and his tags
+
+    public function tags(){
+
+
+        return $this->belongsToMany(
+
+            Tag::class ,'product_tag','product_id' ,'tag_id','id','id'
+            
+        );
+    }
 }

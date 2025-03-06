@@ -4,8 +4,11 @@ namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str ;
 
 class productController extends Controller
 {
@@ -67,15 +70,54 @@ class productController extends Controller
         }else{
             $product=Product::findOrFail($id);
 
-        }   
+        }
+        $categories=Category::all();
+        //catch tags from relationship
+
+        //transform collection to array and the to string to show this in edit , and pluck to retrive all of the value for given key
+        $tags=implode(',',$product->tags()->pluck('name')->toArray());
+        return view('dashboard.products.edit',compact('categories','product','tags'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        $products_without_tags=$request->except('tags');
+
+        $product->update($products_without_tags);
+
+        $input_tags=explode(',',$request->post('tags'));
+        $tag_ids=[];
+
+        foreach($input_tags as $T_name){
+            $slug=Str::slug($T_name);
+            //search into tags table
+            $tag=Tag::where('slug' ,'=',$slug)->first();
+        //check if tag exist or not 
+            if (!$tag) {
+            # create tags
+              $tag=Tag::create([
+                'name'=>$T_name,
+                'slug'=>$slug
+            ]);
+          }
+
+        //insert into pivot table using tags() relationship
+         $tag_ids[]=$tag->id;
+        }
+        $product->tags()->sync($tag_ids);
+       
+        
+        //catch data , validate data , update product , tags:: check if tags is found in tags table or not ? 
+                                                        //if found ... I will take ids of tags , not found create tags into tags table 
+
+        //there some thing should be noticed : what will be stored in table product_tags ?? tags_ids and product_id
+        //make syncronization into product_tags table update and delete as required
+        //redirect message
+        return redirect()->route('dashboard.product.index')->with('success','Product Updated');
+        
     }
 
     /**
