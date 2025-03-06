@@ -94,7 +94,8 @@ class productController extends Controller
         foreach($input_tags as $T_name){
             $slug=Str::slug($T_name);
             //search into tags table
-            $tag=Tag::where('slug' ,'=',$slug)->first();
+            $saved_tags=Tag::all();
+            $tag=$saved_tags->where('slug' ,'=',$slug)->first();
         //check if tag exist or not 
             if (!$tag) {
             # create tags
