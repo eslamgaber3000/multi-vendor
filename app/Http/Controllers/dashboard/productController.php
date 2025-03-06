@@ -88,11 +88,14 @@ class productController extends Controller
 
         $product->update($products_without_tags);
 
-        $input_tags=explode(',',$request->post('tags'));
+        $input_tags= json_decode($request->post('tags'));
+        // $input_tags=explode(',',$request->post('tags'));
+       
         $tag_ids=[];
 
-        foreach($input_tags as $T_name){
-            $slug=Str::slug($T_name);
+        foreach($input_tags as $item){
+            // dd($item->value);
+            $slug=Str::slug($item->value);
             //search into tags table
             $saved_tags=Tag::all();
             $tag=$saved_tags->where('slug' ,'=',$slug)->first();
@@ -100,7 +103,7 @@ class productController extends Controller
             if (!$tag) {
             # create tags
               $tag=Tag::create([
-                'name'=>$T_name,
+                'name'=>$item->value,
                 'slug'=>$slug
             ]);
           }

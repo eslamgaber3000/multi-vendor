@@ -90,3 +90,24 @@
     {{-- check on the value for button update or create --}}
     <button type="submit" class="btn btn-primary">{{ $button_label ?? 'Save' }}</button>
 </div>
+
+
+
+
+@push('scripts')
+<script src="{{ asset('dist/js/tagify.js') }}"></script>
+<script src="{{ asset('dist/js/tagify.polyfills.min.js') }}"></script>
+
+<script>
+
+var input = document.querySelector('input[name=tags]');
+new Tagify(input)
+
+</script>
+@endpush
+
+@push('styles')
+<link href="{{ asset('dist/css/tagify.css') }}" rel="stylesheet" type="text/css" />  
+@endpush
+
+
