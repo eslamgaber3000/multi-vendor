@@ -57,4 +57,10 @@ class Product extends Model
             
         );
     }
+
+    //intialize active scope for products
+
+    public function scopeActive ($query){
+        $query->where('status' , '=' ,'active');
+    }
 }
