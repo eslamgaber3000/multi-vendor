@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder ;
 use Illuminate\Support\Facades\Auth ;
+use Illuminate\Support\Str ;
 
 
 class Product extends Model
@@ -62,5 +63,31 @@ class Product extends Model
 
     public function scopeActive ($query){
         $query->where('status' , '=' ,'active');
+    }
+    // use laravel accessors to check image after it came from db if it url or pathe or not found ; 
+    public function getImageUrlAttribute (){
+
+        if(! $this->image){
+
+            return 'https://www.incathlab.com/images/products/default_product.png';
+        }
+        if(Str::startsWith( $this->image , ['http://','https://'])){
+            return $this->image ;
+        }
+
+        return  asset('storage/'.$this->image);
+
+        
+    }
+
+    //we need to make accessor to calculate the percentage of sale in each product
+
+    public function getSalePercentageAttribute(){
+
+        if(!$this->compare_price){
+            return 0 ;
+        }
+        // sale percentage= 100*(sale_price / original price -1)
+        return  number_format( 100* (($this->price / $this->compare_price)-1) ,0);
     }
 }
