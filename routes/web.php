@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\dashboard\CategoryController;
 use App\Http\Controllers\front\HomeController;
+use App\Http\Controllers\front\ProductsController;
+use App\Http\Controllers\dashboard\productController;
+use App\Http\Controllers\dashboard\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +20,9 @@ use App\Http\Controllers\front\HomeController;
 */
 
 Route::get('/' , [HomeController::class ,'index'])->name('front.home');
-
-
+Route::get('products/index' ,[productController::class,'index'])->name('front.products.index'); 
+// products/show/{product:slug} => this mean use model binding and customize it with slug not id ;
+Route::get('products/show/{product:slug}' ,[ProductsController::class,'show'])->name('front.products.show');  
 
 
 Route::middleware('auth')->group(function () {
