@@ -28,8 +28,11 @@
             <li><span>5.0 Review(s)</span></li>
         </ul>
         <div class="price">
-            <span>${{$product->price}}</span>
-            <span class="discount-price">${{$product->compare_price}}</span>
+            <span>{{ Currency::formate($product->price,config('app.currency'))}}</span>
+
+            @if ($product->compare_price)
+            <span class="discount-price">{{ Currency::formate($product->compare_price,config('app.currency'))}}</span> 
+            @endif
         </div>
     </div>
 </div>

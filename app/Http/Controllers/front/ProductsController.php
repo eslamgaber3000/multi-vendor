@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\front;
 
-use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ProductsController extends Controller
 {
