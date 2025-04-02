@@ -5,7 +5,7 @@ namespace App\Http\Controllers\front;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Cookie;
 class HomeController extends Controller
 {
     public function index(){

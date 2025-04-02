@@ -4,13 +4,14 @@ use App\Http\Controllers\dashboard\CategoryController;
 use App\Http\Controllers\dashboard\productController;
 use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
 
 Route::group(
     
     [
-            'middleware'=>'auth',
+            'middleware'=>['auth','IsAdmin:admin,super_admin'],
             'as'=>'dashboard.',
             
 
