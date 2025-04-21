@@ -14,14 +14,23 @@ class CartController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(CartRepositoryInterface $cart ) // this is feature in laravel throw my objects in to the action
+    public $cart ;
+
+     public function __construct(CartRepositoryInterface $cart )
+     {
+        $this->cart=$cart ;
+        
+     }
+
+    //  public function index(CartRepositoryInterface $cart) we was use this shape
+    public function index() // this is feature in laravel throw my objects into the action
     {
         
         // $cart_model_repository=new cartModelRepository(); // using the repository class without service container;
-    //    $cart_model_repository= App::make('Cart');
+       //$cart_model_repository= App::make('Cart');
 
         return view('front.cart.index',[
-            'cart'=>$cart
+            'cart'=>$this->cart
         ]);
     }
 
@@ -30,7 +39,7 @@ class CartController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request , CartRepositoryInterface $cart)
+    public function store(Request $request )
     {
         // $cart_model_repository=new cartModelRepository(); // we don't need to every time store the  cart
         
@@ -42,7 +51,7 @@ class CartController extends Controller
         ]);
 
         $product=Product::findOrFail($request->post('product_id'));
-        $cart->add($product , $request->post('quantity'));
+        $this->cart->add($product , $request->post('quantity'));
         return redirect()->route('Cart.index')->with('success' , 'Cart add to cart !');
 
         
