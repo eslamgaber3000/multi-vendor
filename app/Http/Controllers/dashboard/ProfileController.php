@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
-use Auth;
+use Illuminate\support\Facades\Auth;
 use Illuminate\Http\Request;
 
 use Symfony\Component\Intl\Countries;

@@ -4,22 +4,24 @@ namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Repositories\cartRepository\cartModelRepository;
+use App\Repositories\CartRepository\CartModelRepository;
+use App\Repositories\CartRepository\CartRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(CartRepositoryInterface $cart ) // this is feature in laravel throw my objects in to the action
     {
-        $cart_model_repository=new cartModelRepository();
-
-        $items=$cart_model_repository->get();
+        
+        // $cart_model_repository=new cartModelRepository(); // using the repository class without service container;
+    //    $cart_model_repository= App::make('Cart');
 
         return view('front.cart.index',[
-            'cart'=>$items
+            'cart'=>$cart
         ]);
     }
 
@@ -28,9 +30,9 @@ class CartController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request , CartRepositoryInterface $cart)
     {
-        $cart_model_repository=new cartModelRepository();
+        // $cart_model_repository=new cartModelRepository(); // we don't need to every time store the  cart
         
         $request->validate([
 
@@ -40,7 +42,8 @@ class CartController extends Controller
         ]);
 
         $product=Product::findOrFail($request->post('product_id'));
-        $cart_model_repository->add($product , $request->post('quantity'));
+        $cart->add($product , $request->post('quantity'));
+        return redirect()->route('Cart.index')->with('success' , 'Cart add to cart !');
 
         
     }
@@ -52,9 +55,9 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, CartRepositoryInterface $cart)
     {
-        $cart_model_repository=new cartModelRepository();
+        // $cart_model_repository=new cartModelRepository();
         
         $request->validate([
 
@@ -64,16 +67,16 @@ class CartController extends Controller
         ]);
 
         $product=Product::findOrFail($request->post('product_id'));
-        $cart_model_repository->update($product,$request->post('quantity'));
+        $cart->update($product,$request->post('quantity'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(CartRepositoryInterface $cart ,  string $id)  //when we have paraemter in route and need thing from service container; first should sevice contaner
     {
-        $cart_model_repository=new cartModelRepository();
+        // $cart_model_repository=new cartModelRepository();
 
-        $cart_model_repository->delete($id);
+        $cart->delete($id);
     }
 }

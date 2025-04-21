@@ -1,5 +1,5 @@
 <?php
-namespace App\Repositories\cartRepository;
+namespace App\Repositories\CartRepository;
 
 use App\Models\Cart;
 use App\Models\Product;
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str ;
 
-class cartModelRepository implements CartRepositoryInterface
+class CartModelRepository implements CartRepositoryInterface
 {
     public function get(): Collection
     {
@@ -54,10 +54,10 @@ class cartModelRepository implements CartRepositoryInterface
     public function total(): float
     {
         //sum the total  price of all product
-     return     Cart::where('cookie_id','=',$this->getCookieId()) 
+     return  (float) Cart::where('cookie_id','=',$this->getCookieId()) 
                 ->join('products','products.id','=','carts.product_id')
-                ->selectRow('SUM(products.price * carts.quantity)')
-                ->value(); // we only need the total price (value) so use this function
+                ->selectRaw('SUM(products.price * carts.quantity) as total')
+                ->value('total'); // we only need the total price (value) so use this function
                 
     }
 
@@ -71,7 +71,7 @@ class cartModelRepository implements CartRepositoryInterface
             //create $cookie_id
             $cookie_id=Str::uuid();
             //store the value of cookie in cookies queue
-            Cookie::queue('cart_id',$cookie_id,Carbon::now()->addDays(30));
+            Cookie::queue('cart_id',$cookie_id, 60*24*30);
         }
         
         return $cookie_id;

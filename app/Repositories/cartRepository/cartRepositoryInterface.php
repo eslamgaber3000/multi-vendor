@@ -1,5 +1,5 @@
 <?php
-namespace App\Repositories\cartRepository;
+namespace App\Repositories\CartRepository;
 
 use App\Models\Product;
 use Illuminate\Support\Collection;

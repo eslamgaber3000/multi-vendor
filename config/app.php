@@ -1,5 +1,6 @@
 <?php
 
+use App\Providers\CartServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -171,7 +172,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Bezhanov\Faker\Laravel\FakerServiceProvider::class,
-
+        App\Providers\CartServiceProvider::class ,
     ])->toArray(),
 
     /*
