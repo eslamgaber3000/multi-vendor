@@ -21,14 +21,30 @@ class CartModelRepository implements CartRepositoryInterface
 
     public function add(Product $product ,$quantity=1){
 
-        Cart::create(
-            [
-                'cookie_id'=>$this->getCookieId(), //every time we need to add item in the same user cookie
-                'user_id'=>Auth::id(),
-                'product_id'=>$product->id,
-                'quantity'=>$quantity
-            ]
-        );
+        $item = Cart::where('product_id',$product->id)
+              ->where('cookie_id','=',$this->getCookieId())
+              ->first();
+                 // we should check before we create cart item if it exist update the quantity else  add product to cart
+              if(!$item){
+
+               return   Cart::create(
+                      [
+                          'cookie_id'=>$this->getCookieId(), //every time we need to add item in the same user cookie
+                          'user_id'=>Auth::id(),
+                          'product_id'=>$product->id,
+                          'quantity'=>$quantity
+                      ]
+                      );
+
+              }
+
+              $old_quantity=$item->quantity;
+
+              return   $item->update([
+
+                'quantity'=>$quantity + $old_quantity 
+              ]);
+
     }
 
     public function update(Product $product, $quantity)
