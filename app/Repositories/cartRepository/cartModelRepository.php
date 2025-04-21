@@ -44,7 +44,7 @@ class CartModelRepository implements CartRepositoryInterface
 
             //     'quantity'=>$quantity + $old_quantity 
             //   ]);
-            return $item->increment('quantity' , $quantity);
+            return $item->increment('quantity' , $quantity); 
 
     }
 
