@@ -13,7 +13,7 @@ class CartModelRepository implements CartRepositoryInterface
 {
     public function get(): Collection
     {
-        return Cart::where('cookie_id','=',$this->getCookieId())->get();
+        return Cart::with('product')->where('cookie_id','=',$this->getCookieId())->get();
 
             
        
