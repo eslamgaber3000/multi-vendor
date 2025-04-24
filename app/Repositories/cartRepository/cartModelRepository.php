@@ -13,23 +13,20 @@ class CartModelRepository implements CartRepositoryInterface
 {
     public function get(): Collection
     {
-        return Cart::with('product')->where('cookie_id','=',$this->getCookieId())->get();
-
-            
+        return Cart::with('product')->get();
        
     }
 
     public function add(Product $product ,$quantity=1){
 
         $item = Cart::where('product_id',$product->id)
-              ->where('cookie_id','=',$this->getCookieId())
               ->first();
                  // we should check before we create cart item if it exist update the quantity else  add product to cart
               if(!$item){
 
                return   Cart::create(
                       [
-                          'cookie_id'=>$this->getCookieId(), //every time we need to add item in the same user cookie
+                          'cookie_id'=>Cart::getCookieId(), //every time we need to add item in the same user cookie
                           'user_id'=>Auth::id(),
                           'product_id'=>$product->id,
                           'quantity'=>$quantity
@@ -51,7 +48,6 @@ class CartModelRepository implements CartRepositoryInterface
     public function update(Product $product, $quantity)
     {
         Cart::where('product_id','=',$product->id)
-        ->where('cookie_id','=',$this->getCookieId())
         ->update([
             'quantity'=>$quantity
         ]);
@@ -60,39 +56,39 @@ class CartModelRepository implements CartRepositoryInterface
     public function delete($id)
     {
         Cart::where('id','=',$id)
-        ->where('cookie_id','=',$this->getCookieId())
         ->delete();
     }
 
     public function clear()
     {
-        Cart::where('cookie_id','=',$this->getCookieId())->destroy();
+        Cart::delete(); // this need to fetching model first is it will make problem or not .
+        // Cart::query()->delete(); this will make the cart empty .
     }
     public function total(): float
     {
         //sum the total  price of all product
-     return  (float) Cart::where('cookie_id','=',$this->getCookieId()) 
-                ->join('products','products.id','=','carts.product_id')
-                ->selectRaw('SUM(products.price * carts.quantity) as total')
-                ->value('total'); // we only need the total price (value) so use this function
+     return  (float) Cart::join('products','products.id','=','carts.product_id')
+                        ->selectRaw('SUM(products.price * carts.quantity) as total')
+                        ->value('total'); // we only need the total price (value) so use this function
+               
                 
     }
 
     //make function to get cookie id
  // why this function doesn't in interface bedouse this function is associated with how to deal with cart using cookie spasific  not how to implement the cart in general
-    protected function getCookieId(){
+    // protected function getCookieId(){
 
-        $cookie_id=Cookie::get('cart_id');
+    //     $cookie_id=Cookie::get('cart_id');
 
-        if( ! $cookie_id){
-            //create $cookie_id
-            $cookie_id=Str::uuid();
-            //store the value of cookie in cookies queue
-            Cookie::queue('cart_id',$cookie_id, 60*24*30);
-        }
+    //     if( ! $cookie_id){
+    //         //create $cookie_id
+    //         $cookie_id=Str::uuid();
+    //         //store the value of cookie in cookies queue
+    //         Cookie::queue('cart_id',$cookie_id, 60*24*30);
+    //     }
         
-        return $cookie_id;
-    }
+    //     return $cookie_id;
+    // }
 
 }
 

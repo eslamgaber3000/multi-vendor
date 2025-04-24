@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str ;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Cart extends Model
 {
@@ -24,6 +26,12 @@ class Cart extends Model
 
             $cart->id=Str::uuid();
         });
+
+        static::addGlobalScope('cookie_id' ,function(Builder $builder){
+
+            $builder->where('cookie_id','=',Cart::getCookieId());
+        });
+
     }
 
     //En.Safady follows that cart one to one relationship cart and product
@@ -38,5 +46,23 @@ class Cart extends Model
                                                                             //error access brobery on null
            [ 'name'=>'anonymous']
         );
+    }
+
+
+
+//       make function to get cookie id
+//  why this function doesn't in interface bedouse this function is associated with how to deal with cart using cookie spasific  not how to implement the cart in general
+    public  static function getCookieId(){
+
+        $cookie_id=Cookie::get('cart_id');
+
+        if( ! $cookie_id){
+            //create $cookie_id
+            $cookie_id=Str::uuid();
+            //store the value of cookie in cookies queue
+            Cookie::queue('cart_id',$cookie_id, 60*24*30);
+        }
+        
+        return $cookie_id;
     }
 }
