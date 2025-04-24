@@ -84,10 +84,10 @@
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-12">
-                            <p>{{ App\Helpers\Currency::formate($item->product->price * $item->quantity) }}</p>
+                            <p>{{ App\Helpers\Currency::formate($item->product->price * $item->quantity , config('app.currency')) }}</p>
                         </div>
                         <div class="col-lg-2 col-md-2 col-12">
-                            <p>{{App\Helpers\Currency::formate(0)}}</p>
+                            <p>{{App\Helpers\Currency::formate(0 , config('app.currency') )}}</p>
                         </div>
                         <div class="col-lg-1 col-md-2 col-12">
                             <a class="remove-item" href="javascript:void(0)"><i class="lni lni-close"></i></a>
@@ -117,16 +117,16 @@
                             <div class="col-lg-4 col-md-6 col-12">
                                 <div class="right">
                                     <ul>
-                                        <li>Cart Subtotal<span>{{App\Helpers\Currency::formate($cart->total()) }}</span></li>
+                                        <li>Cart Subtotal<span>{{App\Helpers\Currency::formate($cart->total() , config('app.currency')) }}</span></li>
                                         <li>Shipping<span>Free</span></li>
-                                        <li>You Save<span>{{App\Helpers\Currency::formate(0)}}</span></li>
+                                        <li>You Save<span>{{App\Helpers\Currency::formate(0 , config('app.currency'))}}</span></li>
                                         <li class="last">You Pay<span>
                                             @php
                                                 $total=$cart->total();
                                                 $discount=0 ;
                                                 $final=$total - $discount ;
                                             @endphp
-                                            {{ App\Helpers\Currency::formate($final) }}</span></li>
+                                            {{ App\Helpers\Currency::formate($final ,  config('app.currency')) }}</span></li>
                                     </ul>
                                     <div class="button">
                                         <a href="checkout.html" class="btn">Checkout</a>
