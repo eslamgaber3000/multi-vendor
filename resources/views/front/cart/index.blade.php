@@ -74,12 +74,13 @@
                         </div>
                         <div class="col-lg-2 col-md-2 col-12">
                             <div class="count-input">
-                                <input class="form-control" name="quantity" value="{{$item->quantity }}">
+                                <input class="form-control item-quantity" name="quantity" data-id={{ $item->id }} value="{{$item->quantity }}">
                                     {{-- <option>1</option>
                                     <option>2</option>
                                     <option>3</option>
                                     <option>4</option>
                                     <option>5</option> --}}
+                                    <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                                 
                             </div>
                         </div>
@@ -142,6 +143,15 @@
         </div>
     </div>
     <!--/ End Shopping Cart -->
+
+    @push('scripts')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+@vite('resources/js/cart.js')
+        
+ 
+
+    @endpush
 </x-front-layout>
 
 
