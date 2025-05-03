@@ -32,27 +32,27 @@
 })(jQuery);
 
 
-(function($) { 
-  $('.add-item').on('click' , function(){
+// (function($) { 
+//   $('.add-item').on('click' , function(){
     
-   let product_id=$('#product_id').val();
-   let product_quantity=$('#product_quantity').val();
-    console.log($('#token').val())
-    $.ajax({
-      url: "/Cart",
-      method:'post' ,
-      data: {
-       _token: $('#token').val() ,
-       product_id :product_id ,
-       quantity :product_quantity
-      } , success : function (){
+//    let product_id=$('#product_id').val();
+//    let product_quantity=$('#product_quantity').val();
+//     console.log($('#token').val())
+//     $.ajax({
+//       url: "/Cart",
+//       method:'post' ,
+//       data: {
+//        _token: $('#token').val() ,
+//        product_id :product_id ,
+//        quantity :product_quantity
+//       } , success : function (){
 
-      window.alert('Item add!') 
+//       window.alert('Item add!') 
         
-      }
-    })
+//       }
+//     })
    
 
-  })
-})(jQuery);
+//   })
+// })(jQuery);
 
