@@ -20,10 +20,10 @@ class UserSeeder extends Seeder
 
     DB::table('users')->insert([
 
-       'name'=>'system Admin',
-            'email'=>'eslam556547@gmail.com',
-            'password'=>Hash::make('password'),
-            'phone_number'=>'01016403403'
+       'name'=>'Eslam Gaber',
+            'email'=>'e.gaber@ibdl.net',
+            'password'=>Hash::make('12345678'),
+            'phone_number'=>'01147174789'
     ]);
     }
 }

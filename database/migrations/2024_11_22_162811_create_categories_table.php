@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('categories', 'id')->nullOnDelete(); //الترتيب هنا مهم
             $table->string('image')->nullable();
-            $table->enum('status', ['exist', 'archived']);
+            $table->enum('status', ['exist', 'archived'])->default('exist');
             $table->timestamps();
         });
     }

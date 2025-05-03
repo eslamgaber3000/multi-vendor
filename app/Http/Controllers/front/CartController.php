@@ -52,6 +52,12 @@ class CartController extends Controller
 
         $product=Product::findOrFail($request->post('product_id'));
         $this->cart->add($product , $request->post('quantity'));
+
+        //using redirect and response json
+
+        if($request->expectsJson()){
+            return response()->json('Item Added Successfully !',201);
+        }
         return redirect()->route('Cart.index')->with('success' , 'Cart add to cart !');
 
         
@@ -82,10 +88,10 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CartRepositoryInterface $cart ,  string $id)  //when we have paraemter in route and need thing from service container; first should sevice contaner
+    public function destroy( string $id)  //when we have paraemter in route and need thing from service container; first should sevice contaner
     {
         // $cart_model_repository=new cartModelRepository();
 
-        $cart->delete($id);
+        $this->cart->delete($id);
     }
 }

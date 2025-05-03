@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('logo_image')->nullable();
             $table->string('address')->nullable();
-            $table->enum('status',['active','not active']);
+            $table->enum('status',['active','exist'])->default('exist');
             $table->string('cover_image')->nullable();
             $table->timestamps();
         });

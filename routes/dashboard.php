@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     
     [
-            'middleware'=>['auth','IsAdmin:admin,super_admin',
+            'middleware'=>['auth','IsAdmin:admin,super_admin,user',
         'verified'    
         ],
             'as'=>'dashboard.',

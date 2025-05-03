@@ -49,7 +49,8 @@
                     <div class="col-lg-6 col-md-12 col-12">
                         <form action="{{ route('Cart.store') }}" method="post">
                             @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+                            <input type="hidden" id="product_id"  name="product_id" value="{{ $product->id }}">
                               <div class="product-info">
                             <h2 class="title">{{$product->name}}</h2>
                             <p class="category"><i class="lni lni-tag"></i> Drones:<a href="javascript:void(0)">
@@ -57,9 +58,9 @@
                             </a></p>
                             <h3 class="price">
 
-                                {{   Currency::formate($product->price , config('app.currency','USD')); }}
+                                {{   Currency::formate($product->price , config('app.currency','USD'))}}
                                  @if ($product->compare_price)
-                                <span> {{  Currency::formate($product->price , config('app.currency','USD')) }}</span>  
+                                <span> {{  Currency::formate($product->compare_price , config('app.currency','USD')) }}</span>  
                                 @endif
                                 </h3>
                             <p class="info-text">
@@ -101,12 +102,12 @@
                                 <div class="col-lg-4 col-md-4 col-12">
                                     <div class="form-group quantity">
                                         <label for="color">Quantity</label>
-                                        <select class="form-control" name="quantity">
+                                        <select class="form-control" id="product_quantity" name="quantity">
                                             <option value=1>1</option>
                                             <option value=2>2</option>
                                             <option value=3>3</option>
                                             <option value=4>4</option>
-                                            <option   value=5>5</option>
+                                            <option value=5>5</option>
                                         </select>
                                     </div>
                                 </div>
@@ -115,7 +116,7 @@
                                 <div class="row align-items-end">
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <div class="button cart-button">
-                                            <button class="btn" type="submit" style="width: 100%;">Add to Cart</button>
+                                            <button class="btn add-item" type="button" style="width: 100%;">Add to Cart</button>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-12">
@@ -377,6 +378,11 @@
             e.target.style.opacity = opacity;
         });
     });
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+ @vite('resources/js/cart.js')
+
 </script>
  @endpush   
 </x-front-layout>
