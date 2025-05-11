@@ -26,7 +26,7 @@ class Product extends Model
     //Create  one to many relationship between store and Product
     public function store(){
 
-        return $this->belongsTo(Stores::class,'store_id','id');
+        return $this->belongsTo(Store::class,'store_id','id');
     }
 
 
