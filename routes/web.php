@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\front\HomeController;
 use App\Http\Controllers\front\ProductsController;
 use App\Http\Controllers\front\CartController;
+use App\Http\Controllers\front\CheckOutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('Cart' ,CartController::class);
+Route::get('/checkout', [CheckOutController::class, 'create'])->name('front.checkout');
+Route::post('/checkout' ,[CheckOutController::class,'store']);
+                                        
 
 require __DIR__.'/auth.php';
 require __DIR__.'/dashboard.php';

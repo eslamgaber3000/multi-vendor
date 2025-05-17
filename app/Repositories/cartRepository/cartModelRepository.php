@@ -69,8 +69,7 @@ class CartModelRepository implements CartRepositoryInterface
 
     public function clear()
     {
-        Cart::delete(); //         this need to fetching model first is it will make problem or not .
-        // Cart::query()->delete(); this will make the cart empty .
+        Cart::query()->delete(); //this will make the cart empty .
     }
     public function total(): float
     {

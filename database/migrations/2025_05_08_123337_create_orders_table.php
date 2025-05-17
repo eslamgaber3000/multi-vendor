@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('order_number')->unique();
             $table->enum('status',['pending','processing','delivering','completed','canceled','refunding'])
             ->default('pending') ;
-            $table->enum('payment-status',['pending','paid','failed']);
+            $table->enum('payment-status',['pending','paid','failed'])->default('pending');
             $table->string('payment_method');
 
             $table->timestamps();

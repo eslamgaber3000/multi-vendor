@@ -22,7 +22,7 @@ return new class extends Migration
           $table->string('phone_number');
           $table->string('city');
           $table->string('postal_code')->nullable();
-          $table->char('county',2);
+          $table->char('country',2);
           $table->string('state')->nullable();
 
 

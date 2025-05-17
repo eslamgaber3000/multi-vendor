@@ -20,21 +20,14 @@ class Order extends Model
     public static function booted(){
 
         static::creating(function ( Order $order) {
-         
-            $nextNumber = 0 ;
+    
 
-            $year=Carbon::now()->year;
-            $number=Order::whereYear('created_at','=',$year)->max('order_number');
-            if($number){
             
-               $nextNumber=$number + 1 ;
-            }
             //this will be the first order at all , or the first order in this year .
             // we can make some thing like getNextNumber
             //formate of order_number year concatenated with 4 number ex(20250001, 20250002) 
-            $nextNumber=$year+ '0001';
 
-            $order->order_number=$nextNumber;
+            // $order->order_number=$nextNumber;
 
             //using function to mange reusability
             $order->order_number=Order::getNextNumber(); 
@@ -62,6 +55,7 @@ class Order extends Model
     public function products(){
 
         return $this->belongsToMany(Product::class ,'order_items','order_id','product_id','id','id')
+        ->using(OrderItem::class)
         ->withPivot('product_name','product_price','quantity','options') ;
        
     }
@@ -94,7 +88,7 @@ class Order extends Model
            return $number + 1 ;
         }
 
-        return $year+ '0001';
+        return $year . '0001';
 
     }
 }

@@ -130,7 +130,7 @@
                                             {{ App\Helpers\Currency::formate($final ,  config('app.currency')) }}</span></li>
                                     </ul>
                                     <div class="button">
-                                        <a href="checkout.html" class="btn">Checkout</a>
+                                        <a href="{{ route('front.checkout') }}" class="btn">Checkout</a>
                                         <a href="{{ route('front.products.index') }}" class="btn btn-alt">Continue shopping</a>
                                     </div>
                                 </div>

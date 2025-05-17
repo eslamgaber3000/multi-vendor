@@ -35,7 +35,7 @@
                 <span class="total-amount">{{Currency::formate($total,config('app.currency'))}}</span>
             </div>
             <div class="button">
-                <a href="checkout.html" class="btn animate">Checkout</a>
+                <a href="{{ route('front.checkout') }}" class="btn animate">Checkout</a>
             </div>
         </div>
     </div>
