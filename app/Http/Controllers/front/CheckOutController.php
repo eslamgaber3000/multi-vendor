@@ -22,6 +22,11 @@ class CheckOutController extends Controller
     $countries = Countries::getNames(); 
         
     // dd($cart->get()->all()[0]->product()); //relationship is returned
+
+    if(count($cart->get()) == 0){
+        
+        return redirect()->route('front.home');
+    }
         return view('front.checkout', compact('cart' , 'countries'));
     }
 
@@ -29,8 +34,8 @@ class CheckOutController extends Controller
     public function store(Request $request, CartRepositoryInterface $cart)
     {
         //catch data
-        $data=$request->all();
-        // dd($data);
+        $data=$request->post();
+        dd($data);
         $request->validate([
             'user_id'=>['nullable' , 'exists:users,id' , 'alpha_num'],
             'store_id'=>['required' , 'exists:stores,id'],
