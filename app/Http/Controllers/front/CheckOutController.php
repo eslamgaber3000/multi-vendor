@@ -20,9 +20,7 @@ class CheckOutController extends Controller
     {
   
     $countries = Countries::getNames(); 
-        
-    // dd($cart->get()->all()[0]->product()); //relationship is returned
-
+    
     if(count($cart->get()) == 0){
         
         return redirect()->route('front.home');
@@ -33,23 +31,29 @@ class CheckOutController extends Controller
 
     public function store(Request $request, CartRepositoryInterface $cart)
     {
-        //catch data
-        $data=$request->post();
-        dd($data);
-        $request->validate([
-            'user_id'=>['nullable' , 'exists:users,id' , 'alpha_num'],
-            'store_id'=>['required' , 'exists:stores,id'],
-            'payment_method'=>['required' , 'string'] ,
-            'order_id'=>['required' , 'exists:orders,id'],
-            'product_id'=>['required' , 'alpha_num' , 'exists:products,id'],
-            'product_price'=>['required' , 'decimal:1,2'],
-            'quantity'=>['required' , 'numeric'],
-            'options'=>['nullable'] ,
-            'address_type'=>['required' , 'in:pilling,shipping'],
-            'status'=>['nullable',  'in:pending,processing,delivering,completed,canceled,refunding']
+       
 
-
-        ]);
+        // $request->validate([
+        //     'user_id'=>['nullable' , 'exists:users,id' , 'alpha_num'],
+        //     'store_id'=>['required' , 'exists:stores,id'],
+        //     'payment_method'=>['required' , 'string'] ,
+        //     'order_id'=>['required' , 'exists:orders,id'],
+        //     'product_id'=>['required' , 'alpha_num' , 'exists:products,id'],
+        //     'product_price'=>['required' , 'decimal:1,2'],
+        //     'quantity'=>['required' , 'numeric'],
+        //     'options'=>['nullable'] ,
+        //     'address_type'=>['required' , 'in:pilling,shipping'],
+        //     'status'=>['nullable',  'in:pending,processing,delivering,completed,canceled,refunding'] ,
+        //     'first_name'=>['required' , 'string'],
+        //     'last_name'=>['required' , 'string'],
+        //     'email'=>[ 'required','email'],
+        //     'mailing_address'=>['nullable','sting'],
+        //     'phone_number'=>['required' ,'string'],
+        //     'city'=>['required', 'string'],
+        //     'postal_code'=>['nullable','string'],
+        //     'country'=>['required','max:2' , 'min:2'],
+        //     'state'=>['nullable', 'string']
+        // ]);
 
         //create order
 
@@ -86,23 +90,35 @@ class CheckOutController extends Controller
                     ]);
                 }
 
-                //create order address by for loop
+               
+                 //catch data
+            $address_data=$request->post('addr');
+           
+            foreach ($address_data as $key => $address) {
 
-                OrderAddress::create([
-                    //catch data from from
-                    'order_id' => $order->id,
-                    'address_type' => $request->post('address_type'),
-                    'first_name' => $request->post('first_name'),
-                    'last_name' => $request->post('last_name'),
-                    'email' => $request->post('email'),
-                    'mailing_address' => $request->post('mailing_address'),
-                    'phone_number' => $request->post('phone_number'),
-                    'city' => $request->post('city'),
-                    'postal_code' => $request->post('postal_code'),
-                    'country' => $request->post('country'),
-                    'state' => $request->post('state')
+                //1-we need to get key from array of array .
+                     $address['address_type']=$key;
+                // need to add key to the address_data array .
+                // 3- we don't need order_id becouse we take it from address relation .
+                   $order->address()->create($address);
+                
+                    }
+              
+                // OrderAddress::create([
+                //     //catch data from from
+                //     'order_id' => $order->id,
+                //     'address_type' => $request->post('address_type'),
+                //     'first_name' => $request->post('first_name'),
+                //     'last_name' => $request->post('last_name'),
+                //     'email' => $request->post('email'),
+                //     'mailing_address' => $request->post('mailing_address'),
+                //     'phone_number' => $request->post('phone_number'),
+                //     'city' => $request->post('city'),
+                //     'postal_code' => $request->post('postal_code'),
+                //     'country' => $request->post('country'),
+                //     'state' => $request->post('state')
 
-                ]);
+                // ]);
             }
             DB::commit(); //commit the three create operations .
             //empty cart .

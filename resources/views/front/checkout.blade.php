@@ -46,11 +46,11 @@
                                                 <label>User Name</label>
                                                 <div class="row">
                                                     <div class="col-md-6 form-input form">
-                                                        <x-form.input  name="addr['pilling']['first_name']" type="text" placeholder="First Name" />
+                                                        <x-form.input  name="addr[pilling][first_name]" type="text" placeholder="First Name" />
                                                     </div>
                                                     <div class="col-md-6 form-input form">
                                                         {{-- <input type="text" name="last_name" placeholder="Last Name"> --}}
-                                                        <x-form.input  name="addr['pilling']['last_name']" type="text" placeholder="Last Name" />
+                                                        <x-form.input  name="addr[pilling][last_name]" type="text" placeholder="Last Name" />
 
                                                     </div>
                                                 </div>
@@ -60,7 +60,7 @@
                                             <div class="single-form form-default">
                                                 <label>Email Address</label>
                                                 <div class="form-input form">
-                                                <x-form.input name="addr['pilling']['email']" type="text" placeholder="Email Address" />
+                                                <x-form.input name="addr[pilling][email]" type="text" placeholder="Email Address" />
 
                                                 </div>
                                             </div>
@@ -69,7 +69,7 @@
                                             <div class="single-form form-default">
                                                 <label>Phone Number</label>
                                                 <div class="form-input form">
-                                                       <x-form.input  name="addr['pilling']['phone_number']" type="text" placeholder="Phone Number" />
+                                                       <x-form.input  name="addr[pilling][phone_number]" type="text" placeholder="Phone Number" />
 
                                                 </div>
                                             </div>
@@ -78,7 +78,7 @@
                                             <div class="single-form form-default">
                                                 <label>Mailing Address</label>
                                                 <div class="form-input form">
-                                                    <x-form.input  name="addr['pilling']['mailing_address']" placeholder="Mailing Address"/>
+                                                    <x-form.input  name="addr[pilling][mailing_address]" placeholder="Mailing Address"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -86,7 +86,7 @@
                                             <div class="single-form form-default">
                                                 <label>City</label>
                                                 <div class="form-input form">
-                                                     <x-form.input  name="addr['pilling']['city']" placeholder="City"/>
+                                                     <x-form.input  name="addr[pilling][city]" placeholder="City"/>
 
                                                 </div>
                                             </div>
@@ -95,7 +95,7 @@
                                             <div class="single-form form-default">
                                                 <label>Post Code</label>
                                                 <div class="form-input form">
-                                                    <x-form.input type="text" name="addr['pilling']['postal_code']"  placeholder='Post Coed' />
+                                                    <x-form.input type="text" name="addr[pilling][postal_code]"  placeholder='Post Coed' />
                                                 </div>
                                             </div>
                                         </div>
@@ -105,7 +105,7 @@
                                                 
                                                  <label>Country</label>
                                                <div class="select-items">
-                                                    <x-form.select name="addr['pilling']['country']" :$countries />
+                                                    <x-form.select name="addr[pilling][country]" :$countries />
                                             </div>
                                             </div>
                                         </div>
@@ -113,7 +113,7 @@
                                             <div class="single-form form-default">
                                                 <label>Region/State</label>
                                                 <div class="select-items">
-                                                    <select class="form-control" name="addr['pilling']['state']" >
+                                                    <select class="form-control" name="addr[pilling][state]" >
                                                         <option value="0">select</option>
                                                         <option value="cairo">Cairo</option>
                                                         <option value="giza">Giza</option>
@@ -155,10 +155,10 @@
                                                 <label>User Name</label>
                                                 <div class="row">
                                                     <div class="col-md-6 form-input form">
-                                                        <x-form.input  name="addr['shipping']['first_name']" type="text" placeholder="First Name" />
+                                                        <x-form.input  name="addr[shipping][first_name]" type="text" placeholder="First Name" />
                                                     </div>
                                                     <div class="col-md-6 form-input form">
-                                                        <x-form.input  name="addr['shipping']['last_name']" type="text" placeholder="Last Name" />
+                                                        <x-form.input  name="addr[shipping][last_name]" type="text" placeholder="Last Name" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -167,7 +167,7 @@
                                             <div class="single-form form-default">
                                                 <label>Email Address</label>
                                                 <div class="form-input form">
-                                                        <x-form.input  name="addr['shipping']['email']" type="text" placeholder="Email Address" />
+                                                        <x-form.input  name="addr[shipping][email]" type="text" placeholder="Email Address" />
                                                 </div>
                                             </div>
                                         </div>
@@ -175,7 +175,7 @@
                                             <div class="single-form form-default">
                                                 <label>Phone Number</label>
                                                 <div class="form-input form">
-                                                 <x-form.input  name="addr['shipping']['phone_number]" type="text" placeholder="Phone Number" />
+                                                 <x-form.input  name="addr[shipping][phone_number]" type="text" placeholder="Phone Number" />
                                                 </div>
                                             </div>
                                         </div>
@@ -183,7 +183,7 @@
                                             <div class="single-form form-default">
                                                 <label>Mailing Address</label>
                                                 <div class="form-input form">
-                                                <x-form.input  name="addr['shipping']['mailing_address']" type="text" placeholder="Mailing address" />
+                                                <x-form.input  name="addr[shipping][mailing_address]" type="text" placeholder="Mailing address" />
                                                 </div>
                                             </div>
                                         </div>
@@ -191,7 +191,7 @@
                                             <div class="single-form form-default">
                                                 <label>City</label>
                                                 <div class="form-input form">
-                                                        <x-form.input  name="addr['shipping']['city']" type="text" placeholder="City" />
+                                                        <x-form.input  name="addr[shipping][city]" type="text" placeholder="City" />
                                                 </div>
                                             </div>
                                         </div>
@@ -199,7 +199,7 @@
                                             <div class="single-form form-default">
                                                 <label>Post Code</label>
                                                 <div class="form-input form">
-                                                        <x-form.input  name="addr['shipping']['postal_code']" type="text" placeholder="Post Code" />
+                                                        <x-form.input  name="addr[shipping][postal_code]" type="text" placeholder="Post Code" />
                                                 </div>
                                             </div>
                                         </div>
@@ -209,7 +209,7 @@
                                                 
                                                  <label>Country</label>
                                                <div class="select-items">
-                                                    <x-form.select name="addr['shipping']['country']" :$countries />
+                                                    <x-form.select name="addr[shipping][country]" :$countries />
                                             </div>
                                             </div>
                                         </div>
@@ -217,7 +217,7 @@
                                             <div class="single-form form-default">
                                                 <label>Region/State</label>
                                                 <div class="select-items">
-                                                  <select class="form-control" name="addr['shipping']['state']" >
+                                                  <select class="form-control" name="addr[shipping][state]" >
                                                         <option value="0">select</option>
                                                         <option value="cairo">Cairo</option>
                                                         <option value="giza">Giza</option>
