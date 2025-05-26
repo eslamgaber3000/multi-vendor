@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddressForm;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\Intl\Countries;
 use App\Repositories\CartRepository\CartRepositoryInterface;
@@ -29,33 +30,40 @@ class CheckOutController extends Controller
     }
 
 
-    public function store(Request $request, CartRepositoryInterface $cart)
+    public function store(AddressForm $request, CartRepositoryInterface $cart)
     {
        
 
-        // $request->validate([
-        //     'user_id'=>['nullable' , 'exists:users,id' , 'alpha_num'],
-        //     'store_id'=>['required' , 'exists:stores,id'],
-        //     'payment_method'=>['required' , 'string'] ,
-        //     'order_id'=>['required' , 'exists:orders,id'],
-        //     'product_id'=>['required' , 'alpha_num' , 'exists:products,id'],
-        //     'product_price'=>['required' , 'decimal:1,2'],
-        //     'quantity'=>['required' , 'numeric'],
-        //     'options'=>['nullable'] ,
-        //     'address_type'=>['required' , 'in:pilling,shipping'],
-        //     'status'=>['nullable',  'in:pending,processing,delivering,completed,canceled,refunding'] ,
-        //     'first_name'=>['required' , 'string'],
-        //     'last_name'=>['required' , 'string'],
-        //     'email'=>[ 'required','email'],
-        //     'mailing_address'=>['nullable','sting'],
-        //     'phone_number'=>['required' ,'string'],
-        //     'city'=>['required', 'string'],
-        //     'postal_code'=>['nullable','string'],
-        //     'country'=>['required','max:2' , 'min:2'],
-        //     'state'=>['nullable', 'string']
-        // ]);
+//catch and validate address data .
 
-        //create order
+// $pill_firs_name=$request->input('addr.pilling.first_name');
+// $pill_last_name=$request->input('addr.pilling.last_name');
+// $pill_email_name=$request->input('addr.pilling.email');
+
+
+
+// $request ->validate([
+
+// 'addr.pilling.first_name' => 'required|string|max:30|min:3',
+// 'addr.pilling.last_name' => 'required|string|max:30|min:3',
+// 'addr.pilling.email' => 'required|email',
+// 'addr.pilling.phone_number' => 'required|string',
+// 'addr.pilling.mailing_address' => 'required|string|max:100|min:10',
+// 'addr.pilling.postal_code' => 'nullable|string',
+// 'addr.pilling.country' => 'required|string|min:2|max:3',
+// 'addr.pilling.state' => 'nullable|string',
+// 'addr.shipping.first_name' => 'required|string|max:30|min:3',
+// 'addr.shipping.last_name' => 'required|string|max:30|min:3',
+// 'addr.shipping.email' => 'required|email',
+// 'addr.shipping.phone_number' => 'required|string',
+// 'addr.shipping.mailing_address' => 'required|string|max:100|min:10',
+// 'addr.shipping.postal_code' => 'nullable|string',
+// 'addr.shipping.country' => 'required|string|min:2|max:3',
+// 'addr.shipping.state' => 'nullable|string',
+
+// ]);
+
+
 
         DB::beginTransaction();
 

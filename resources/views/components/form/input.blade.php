@@ -1,5 +1,11 @@
 @props(['name','type'=>'text','value'=>'','label'=>false])
 
+@php
+    
+$doted_name=str_replace(['[' , ']'],['.' , ''],$name) ;
+
+@endphp
+
 @if ($label)
 <label for="">{{$label}}</label>
 @endif
@@ -8,14 +14,14 @@
 <input name="{{$name}}" type="{{$type}}"
 {{$attributes->class([
 'form-control',
-'is-invalid' => $errors->has($name)
+'is-invalid' => $errors->has($doted_name)
 
 ])}}
  {{-- @class(['form-control', 'is-invalid' => $errors->has($name)])  --}}
-value="{{ old($name) ?? $value }}"> 
+value="{{ old($doted_name) ?? $value }}"> 
 
-@if ($errors->has($name))
+@if ($errors->has($doted_name))
         <div class="invalid-feedback" >
-            {{ $errors->first($name) }}
+            {{ $errors->first($doted_name) }}
         </div>
 @endif
