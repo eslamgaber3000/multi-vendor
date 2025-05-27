@@ -31,39 +31,7 @@ class CheckOutController extends Controller
 
 
     public function store(AddressForm $request, CartRepositoryInterface $cart)
-    {
-       
-
-//catch and validate address data .
-
-// $pill_firs_name=$request->input('addr.pilling.first_name');
-// $pill_last_name=$request->input('addr.pilling.last_name');
-// $pill_email_name=$request->input('addr.pilling.email');
-
-
-
-// $request ->validate([
-
-// 'addr.pilling.first_name' => 'required|string|max:30|min:3',
-// 'addr.pilling.last_name' => 'required|string|max:30|min:3',
-// 'addr.pilling.email' => 'required|email',
-// 'addr.pilling.phone_number' => 'required|string',
-// 'addr.pilling.mailing_address' => 'required|string|max:100|min:10',
-// 'addr.pilling.postal_code' => 'nullable|string',
-// 'addr.pilling.country' => 'required|string|min:2|max:3',
-// 'addr.pilling.state' => 'nullable|string',
-// 'addr.shipping.first_name' => 'required|string|max:30|min:3',
-// 'addr.shipping.last_name' => 'required|string|max:30|min:3',
-// 'addr.shipping.email' => 'required|email',
-// 'addr.shipping.phone_number' => 'required|string',
-// 'addr.shipping.mailing_address' => 'required|string|max:100|min:10',
-// 'addr.shipping.postal_code' => 'nullable|string',
-// 'addr.shipping.country' => 'required|string|min:2|max:3',
-// 'addr.shipping.state' => 'nullable|string',
-
-// ]);
-
-
+    {  
 
         DB::beginTransaction();
 
@@ -112,25 +80,13 @@ class CheckOutController extends Controller
                 
                     }
               
-                // OrderAddress::create([
-                //     //catch data from from
-                //     'order_id' => $order->id,
-                //     'address_type' => $request->post('address_type'),
-                //     'first_name' => $request->post('first_name'),
-                //     'last_name' => $request->post('last_name'),
-                //     'email' => $request->post('email'),
-                //     'mailing_address' => $request->post('mailing_address'),
-                //     'phone_number' => $request->post('phone_number'),
-                //     'city' => $request->post('city'),
-                //     'postal_code' => $request->post('postal_code'),
-                //     'country' => $request->post('country'),
-                //     'state' => $request->post('state')
-
-                // ]);
             }
             DB::commit(); //commit the three create operations .
             //empty cart .
-            $cart->clear();
+
+            // make clear cart in event and listener
+            event('order.create');
+            
             return redirect()->route('front.home');
         } catch (Throwable $e) {
 
