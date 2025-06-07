@@ -1,12 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\front\HomeController;
-use App\Http\Controllers\front\ProductsController;
 use App\Http\Controllers\front\CartController;
+use App\Http\Controllers\front\HomeController;
 use App\Http\Controllers\front\CheckOutController;
+use App\Http\Controllers\front\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,3 +39,8 @@ Route::post('/checkout' ,[CheckOutController::class,'store']);
 
 require __DIR__.'/auth.php';
 require __DIR__.'/dashboard.php';
+
+Route::get('/clear-session', function () {
+    Session::forget(['message', 'type']);
+    return 'Session cleared ✅';
+});

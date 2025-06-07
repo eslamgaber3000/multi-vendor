@@ -14,6 +14,7 @@ use App\Http\Requests\AddressForm;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\Intl\Countries;
 use App\Repositories\CartRepository\CartRepositoryInterface;
+use Illuminate\Support\Facades\Session;
 
 class CheckOutController extends Controller
 {
@@ -82,12 +83,14 @@ class CheckOutController extends Controller
               
             }
             DB::commit(); //commit the three create operations .
-            //empty cart .
+            event('order.create' , $order , Auth::user());
+            // dd( Session::get('failed-message'));
+        
+            return redirect()->route('front.home',[
 
-            // make clear cart in event and listener
-            event('order.create');
-            
-            return redirect()->route('front.home');
+               'success-message'=> Session::get('success-message') ,
+               'failed-message'=> Session::get('failed-message')
+            ]);
         } catch (Throwable $e) {
 
             DB::rollBack(); //rolling back from the created 

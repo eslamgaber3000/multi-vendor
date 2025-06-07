@@ -15,7 +15,7 @@ class Product extends Model
     use HasFactory;
     protected $fillable=[
 
-        'name','slug','description','image','store_id','category_id','rating','options','featured','price','compare_price','status'
+        'name','slug','description','image','store_id','category_id','rating','options','featured','price','compare_price','quantity','status'
     ];
 
     //Create relationship between category and Product
