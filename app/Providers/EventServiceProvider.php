@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\orderCreat;
 use App\Listeners\CartEmpty;
 use App\Listeners\QuantityDeduct;
 use Illuminate\Auth\Events\Registered;
@@ -21,7 +22,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         //mapping order.create event with cartEmpty listener .
-        'order.create'=>[
+        orderCreat::class=>[
             QuantityDeduct::class ,
             CartEmpty::class
         ]

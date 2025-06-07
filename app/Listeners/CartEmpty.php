@@ -19,7 +19,7 @@ class CartEmpty
     /**
      * Handle the event.
      */
-    public function handle(): void
+    public function handle($event): void
     {
         // if use the simple event don't use event object
         // we need to clear cart here.

@@ -16,35 +16,29 @@ class QuantityDeduct
     /**
      * Create the event listener.
      */
+
     public function __construct()
     {
-        
+    
   
     }
 
     /**
      * Handle the event.
      */
-    public function handle($order , $user=null): void
+    public function handle($event): void
     {
 
-        
-       
+     $order=$event->order;
         try {
-            $items=Cart::get();
             $errors = [];
-            foreach($items as $item){
-            $product= $item->product ;
-           
+            foreach($order->products as $product){            
+            $item=$product->order_item ;
+                
+            // dd($item->quantity);
             if($item->quantity  <= $product->quantity  ){
-                
-                $product->update(
-                    [
-                        'quantity'=>DB::raw('quantity -' . $item->quantity)
-                    ]
-                );
-               
-                
+            $product->decrement('quantity' , $item->quantity);    
+
             }else{
 
                     $errors [] = "Not enough quantity of {$item->product->name} , Please try again";
@@ -68,6 +62,44 @@ class QuantityDeduct
              Session::flash('failed-message' ,'updated Failed  !'.$th->getMessage() );
         
         }
+    //     try {
+    //         $items=Cart::get();
+    //         $errors = [];
+    //         foreach($items as $item){
+    //         $product= $item->product ;
+           
+    //         if($item->quantity  <= $product->quantity  ){
+                
+    //             $product->update(
+    //                 [
+    //                     'quantity'=>DB::raw('quantity -' . $item->quantity)
+    //                 ]
+    //             );
+               
+                
+    //         }else{
+
+    //                 $errors [] = "Not enough quantity of {$item->product->name} , Please try again";
+    //         }
+
+          
+    //     }
+
+    //     if(count($errors)){
+
+    //          Session::flash('failed-message' , implode('/n', $errors) );
+
+    //     }else{
+    //       Session::flash('success-message'," Your Order Done Successfully! ");  
+    //     }
+
+
+    //     } catch (\Throwable $th) {
+            
+
+    //          Session::flash('failed-message' ,'updated Failed  !'.$th->getMessage() );
+        
+    //     }
        
 
         

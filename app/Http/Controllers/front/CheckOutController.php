@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\front;
 
+use App\Events\orderCreat;
 use Throwable;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -83,9 +84,7 @@ class CheckOutController extends Controller
               
             }
             DB::commit(); //commit the three create operations .
-            event('order.create' , $order , Auth::user());
-            // dd( Session::get('failed-message'));
-        
+            event(new orderCreat($order));        
             return redirect()->route('front.home',[
 
                'success-message'=> Session::get('success-message') ,
