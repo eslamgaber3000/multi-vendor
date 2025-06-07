@@ -24,7 +24,6 @@ class EventServiceProvider extends ServiceProvider
         //mapping order.create event with cartEmpty listener .
         orderCreat::class=>[
             QuantityDeduct::class ,
-            CartEmpty::class
         ]
     ];
 

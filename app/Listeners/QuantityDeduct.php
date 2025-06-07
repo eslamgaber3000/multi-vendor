@@ -38,6 +38,8 @@ class QuantityDeduct
             // dd($item->quantity);
             if($item->quantity  <= $product->quantity  ){
             $product->decrement('quantity' , $item->quantity);    
+            //here we should clear the cart 
+             Cart::clear();
 
             }else{
 
