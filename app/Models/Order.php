@@ -71,7 +71,7 @@ class Order extends Model
     public function billing(){
 
         return $this->hasOne(OrderAddress::class ,'order_id','id')
-        ->where('address_type','billing');
+        ->where('address_type','pilling');
     }
     // we want to get the address of shipping via model relationship
     public function shipping(){
