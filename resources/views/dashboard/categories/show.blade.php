@@ -37,8 +37,8 @@
         <tr>
             <td> <img src="{{ asset('storage/' . $product->image) }}" alt="" height="50"></td>
             <td>{{ $product->name }}</td>
-            <td class="">{{ $product->status }}</td>
             <td class="">{{ $product->store->name}}</td>
+            <td class="">{{ $product->status }}</td>
             <td>{{ $product->created_at }}</td>
             <td>
                 <div class="container">

@@ -93,7 +93,9 @@ class productController extends Controller
        
         $tag_ids=[];
 
-        foreach($input_tags as $item){
+
+        if($input_tags){
+         foreach($input_tags as $item){
             // dd($item->value);
             $slug=Str::slug($item->value);
             //search into tags table
@@ -111,6 +113,8 @@ class productController extends Controller
         //insert into pivot table using tags() relationship
          $tag_ids[]=$tag->id;
         }
+        }
+     
         $product->tags()->sync($tag_ids);
        
         
