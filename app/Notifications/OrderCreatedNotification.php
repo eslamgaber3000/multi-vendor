@@ -3,23 +3,24 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Symfony\Component\Intl\Countries;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
-use Symfony\Component\Intl\Countries;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class OrderCreatedNotification extends Notification
 {
     use Queueable;
 
 
-    public $order ;
+    public $order;
     /**
      * Create a new notification instance.
      */
     public function __construct($order)
     {
-        $this->order=$order ;
+        $this->order = $order;
     }
 
     /**
@@ -29,21 +30,21 @@ class OrderCreatedNotification extends Notification
      */
     public function via(object $notifiable): array //what chanel you want to user to send your notification . || notifiable object is the user you want to notify him .
     {
-        return ['mail' , 'database'];
+        return [ 'broadcast', 'database', 'mail'];
 
         // افترض ان user mode has notification_preference json column and user can select what notification arrive to him if he make order . 
-        $chanel=['database'];
+        $chanel = ['database'];
 
-        if($notifiable->notification_preferences['order_created']['mail'] ?? false){
-            $chanel[]='mail';
+        if ($notifiable->notification_preferences['order_created']['mail'] ?? false) {
+            $chanel[] = 'mail';
         }
-        if($notifiable->notification_preferences['order_created']['sms'] ?? false){
-            $chanel[]='Vonage';
+        if ($notifiable->notification_preferences['order_created']['sms'] ?? false) {
+            $chanel[] = 'Vonage';
         }
-        if($notifiable->notification_preferences['order_created']['broadcast'] ?? false ){
-            $chanel[]='broadcast';
+        if ($notifiable->notification_preferences['order_created']['broadcast'] ?? false) {
+            $chanel[] = 'broadcast';
         }
-        return $chanel ;
+        return $chanel;
     }
 
     /**
@@ -51,21 +52,21 @@ class OrderCreatedNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $order_number=$this->order->order_number;
-       
-        $billing_addresses=$this->order->billing;
+        $order_number = $this->order->order_number;
+
+        $billing_addresses = $this->order->billing;
 
 
         // $clint_name=$billing_addresses->first_name.' '.$billing_addresses->last_name; // using access to don't repeat you self .
 
         // $country=Countries::getName($billing_addresses->country);
         return (new MailMessage)
-                    ->subject("New Order Created #{$order_number}")
-                    ->greeting("Hi {$notifiable->name} ,")
-                    ->from('no-replay@arrzak-store.com' , "Arrzak-Store")
-                    ->line("new order #({$order_number})has been created by {$billing_addresses->name} from {$billing_addresses->country_name}")
-                    ->action('Notification Action', url('/dashboard'))
-                    ->line('Thank you for using our application!');
+            ->subject("New Order Created #{$order_number}")
+            ->greeting("Hi {$notifiable->name} ,")
+            ->from('no-replay@arrzak-store.com', "Arrzak-Store")
+            ->line("new order #({$order_number})has been created by {$billing_addresses->name} from {$billing_addresses->country_name}")
+            ->action('Notification Action', url('/dashboard'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -73,26 +74,40 @@ class OrderCreatedNotification extends Notification
      *
      * @return array<string, mixed>
      */
-    public function toArray(object $notifiable): array
+    // public function toArray(object $notifiable): array
+    // {
+    //     return [
+    //         //
+    //     ];
+    // }
+
+    // >line("new order #({$order_number})has been created by {$billing_addresses->name} from {$billing_addresses->country_name}")
+    public function toDatabase(object $notifiable): array
     {
+        $order_number = $this->order->order_number;
+        $billing_addresses = $this->order->billing;
         return [
-            //
+
+            'body' => "new order  #({$order_number}) has been created by {$billing_addresses->name} from {$billing_addresses->country_name}  ",
+            'icon' => 'fas fa-file',
+            'url' => url('/dashboard'),
+            'order_id' => $this->order->order_id
+
         ];
     }
 
-// >line("new order #({$order_number})has been created by {$billing_addresses->name} from {$billing_addresses->country_name}")
-    public function toDatabase(object $notifiable):array
+
+    public function toBroadcast(object $notifiable)
     {
-        $order_number=$this->order->order_number;
-        $billing_addresses=$this->order->billing;
-         return [
-           
-            'body'=>"new order  #({$order_number}) has been created by {$billing_addresses->name} from {$billing_addresses->country_name}  ",
-            'icon'=>'fas fa-file' ,
-            'url'=>url('/dashboard') ,
-            'order_id'=>$this->order->order_id
 
-        ];
+        $order_number = $this->order->order_number;
+        $billing_addresses = $this->order->billing;
+        return new BroadcastMessage([
 
+            'body' => "New order  #({$order_number}) has been created by {$billing_addresses->name} from {$billing_addresses->country_name}  ",
+            'icon' => 'fas fa-file',
+            'url' => url('/dashboard'),
+            'order_id' => $this->order->id
+        ]);
     }
 }

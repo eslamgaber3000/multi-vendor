@@ -11,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 class orderCreat
-{
+ {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
 
