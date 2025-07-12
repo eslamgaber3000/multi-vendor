@@ -37,7 +37,7 @@ Route::get('/checkout', [CheckOutController::class, 'create'])->name('front.chec
 Route::post('/checkout' ,[CheckOutController::class,'store']);
                                         
 
-require __DIR__.'/auth.php';
+// require __DIR__.'/auth.php';
 require __DIR__.'/dashboard.php';
 
 Route::get('/clear-session', function () {
