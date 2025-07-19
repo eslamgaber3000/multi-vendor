@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Actions\Fortify\AuthenticateUser;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
@@ -28,11 +29,14 @@ class FortifyServiceProvider extends ServiceProvider
         $request=request();
 
         if($request->is('admin/*')){
-
             Config::set('fortify.guard','admin');
             Config::set('fortify.passwords','admins');
             Config::set('fortify.prefix','admin');
             Config::set('fortify.username','email');
+            Fortify::authenticateUsing([  AuthenticateUser ::class, 'authenticate']);
+
+            
+
             // Config::set('fortify.home','admin/dashboard'); //change the redirect after login if he login as admin
         }
 
@@ -73,8 +77,10 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
+       
         Fortify::loginView(function(){
-
+            //make custom auth code , and but it in class to separate our code 
+            
             if(Config::get('fortify.guard')=='web'){
                 return view('front.auth.login');
             }

@@ -801,7 +801,7 @@
 
     </script>
     <script>
-        const finaleDate = new Date("February 15, 2023 00:00:00").getTime();
+        const finaleDate = new Date("October 15, 2025 00:00:00").getTime();
 
         const timer = () => {
             const now = new Date().getTime();
