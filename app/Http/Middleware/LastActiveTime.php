@@ -19,7 +19,7 @@ class LastActiveTime
     // to make this middleware global we need to store this middleware in kernal 
     public function handle(Request $request, Closure $next): Response
     {
-        $user=$request->user();
+        $user=$request->user('web'); // use this middleware on web guard
 
         if($user){
             $user->last_active_at=now();

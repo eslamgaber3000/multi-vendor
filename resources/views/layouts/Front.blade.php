@@ -86,18 +86,34 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-12">
                         <div class="top-end">
-                            <div class="user">
+                            @auth('web')
+                              <div class="user">
                                 <i class="lni lni-user"></i>
-                                Hello
-                            </div>
+                              <span class="text-info">Hello</span>   {{ Auth::guard('web')->user()->name }}
+                            </div> 
+                             <ul class="user-login">
+                               
+                                <li>
+                                    <a href="{{ route('logout') }}" 
+                                    
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit()">Logout</a>
+                                </li>
+                                <form action="{{ route('logout') }}" method="post" style="display: none" id="logout-form">
+                                    @csrf
+                                </form>
+                            </ul>
+                            @else
                             <ul class="user-login">
                                 <li>
-                                    <a href="login.html">Sign In</a>
+                                    <a href="{{ route('login') }}">Sign In</a>
                                 </li>
                                 <li>
-                                    <a href="register.html">Register</a>
+                                    <a href="{{ route('register') }}">Register</a>
                                 </li>
                             </ul>
+                            @endauth
+                            
+                            
                         </div>
                     </div>
                 </div>
@@ -215,7 +231,7 @@
                             <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                                 <ul id="nav" class="navbar-nav ms-auto">
                                     <li class="nav-item">
-                                        <a href="index.html" aria-label="Toggle navigation">Home</a>
+                                        <a href="{{ route('front.home') }}" aria-label="Toggle navigation">Home</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="dd-menu active collapsed" href="javascript:void(0)"
@@ -225,8 +241,8 @@
                                         <ul class="sub-menu collapse" id="submenu-1-2">
                                             <li class="nav-item"><a href="about-us.html">About Us</a></li>
                                             <li class="nav-item"><a href="faq.html">Faq</a></li>
-                                            <li class="nav-item active"><a href="login.html">Login</a></li>
-                                            <li class="nav-item"><a href="register.html">Register</a></li>
+                                            <li class="nav-item active"><a href="{{ route('login') }}">Login</a></li>
+                                            <li class="nav-item"><a href="{{ route('register') }}">Register</a></li>
                                             <li class="nav-item"><a href="mail-success.html">Mail Success</a></li>
                                             <li class="nav-item"><a href="404.html">404 Error</a></li>
                                         </ul>

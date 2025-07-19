@@ -17,13 +17,15 @@ class IsAdmin
     {
         //create custom middleware to apply it in register dashboard route 
         $user=request()->user();
-
+        
         if(!$user){
            return redirect()->route('login');
         }
+        if(request()->user('web')){ //only apply this on guard user 
 
-        if( ! in_array($user->role , $types) ){
-            abort(403);
+            if( ! in_array($user->role , $types) ){
+                abort(403);
+            }
         }
         return $next($request);
     }

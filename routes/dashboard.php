@@ -11,11 +11,12 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     
     [
-            'middleware'=>['auth','IsAdmin:admin,super_admin,user',
+            'middleware'=>['auth:admin',
         'verified'    
         ],
             'as'=>'dashboard.',
-            
+            'prefix'=>'/admin',
+                
 
                 ],function(){
 

@@ -8,10 +8,12 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
+use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -21,7 +23,33 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        //apply multi-guard 
+
+        $request=request();
+
+        if($request->is('admin/*')){
+
+            Config::set('fortify.guard','admin');
+            Config::set('fortify.passwords','admins');
+            Config::set('fortify.prefix','admin');
+            Config::set('fortify.username','email');
+            // Config::set('fortify.home','admin/dashboard'); //change the redirect after login if he login as admin
+        }
+
+        
+        $this->app->instance(LoginResponse::class, new class implements LoginResponse { 
+            public function toResponse($request)
+            
+            {
+                //use service container to update redireict response if it admin
+                if($request->user('admin')){
+                return redirect()->intended('admin/dashboard');
+            }
+             return redirect('/');
+
+        }
+
+    });
     }
 
     /**
@@ -45,9 +73,20 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
-        Fortify::loginView('auth.login'); // you can path the file name as string or as closure function .
+        Fortify::loginView(function(){
+
+            if(Config::get('fortify.guard')=='web'){
+                return view('front.auth.login');
+            }
+                return view('auth.login');
+
+        }); // you can path the file name as string or as closure function .
 
         Fortify::registerView(function(){
+            if(Config::get('fortify.guard')=='web'){
+                
+                return view('front.auth.register');
+            }
             return view('auth.register');
         });
 
