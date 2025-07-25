@@ -8,6 +8,7 @@ use App\Http\Controllers\front\CartController;
 use App\Http\Controllers\front\HomeController;
 use App\Http\Controllers\front\CheckOutController;
 use App\Http\Controllers\front\ProductsController;
+use App\Http\Controllers\TowFactorAuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +36,8 @@ Route::middleware('auth')->group(function () {
 Route::resource('Cart' ,CartController::class);
 Route::get('/checkout', [CheckOutController::class, 'create'])->name('front.checkout');
 Route::post('/checkout' ,[CheckOutController::class,'store']);
-                                        
+ 
+Route::get('tow-factor-authentication-setting',[TowFactorAuthenticationController::class, 'index'])->name('2fa.setting');
 
 // require __DIR__.'/auth.php';
 require __DIR__.'/dashboard.php';

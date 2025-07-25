@@ -88,8 +88,8 @@
                         <div class="top-end">
                             @auth('web')
                               <div class="user">
-                                <i class="lni lni-user"></i>
-                              <span class="text-info">Hello</span>   {{ Auth::guard('web')->user()->name }}
+                              <a href="{{ route('2fa.setting') }}"><i class="lni lni-user"></i></a>
+                              <span class="text-primary">Hello</span>   {{ Auth::guard('web')->user()->name }}
                             </div> 
                              <ul class="user-login">
                                

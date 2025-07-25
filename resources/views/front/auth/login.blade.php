@@ -32,7 +32,7 @@
                             </div>
                             <div class="form-group input-group">
                                 <label for="reg-fn">Email</label>
-                                <input class="form-control" name="{{ Config::get('fortify.username') }}" type="text" id="reg-email" required>
+                                <input class="form-control" name="{{ Config::get('fortify.username') }}" value="{{ old( Config::get('fortify.username')) }}" type="text" id="reg-email" required>
                             </div>
                             <div class="form-group input-group">
                                 <label for="reg-fn">Password</label>
