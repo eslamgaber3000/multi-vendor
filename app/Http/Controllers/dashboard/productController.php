@@ -92,14 +92,13 @@ class productController extends Controller
         // $input_tags=explode(',',$request->post('tags'));
        
         $tag_ids=[];
-
+        $saved_tags=Tag::all();  // this will return collection with all of tags
 
         if($input_tags){
          foreach($input_tags as $item){
             // dd($item->value);
             $slug=Str::slug($item->value);
             //search into tags table
-            $saved_tags=Tag::all();
             $tag=$saved_tags->where('slug' ,'=',$slug)->first();
         //check if tag exist or not 
             if (!$tag) {
@@ -115,7 +114,7 @@ class productController extends Controller
         }
         }
      
-        $product->tags()->sync($tag_ids);
+        $product->tags()->sync($tag_ids); //deal with relation to link tags belongs to product
        
         
         //catch data , validate data , update product , tags:: check if tags is found in tags table or not ? 

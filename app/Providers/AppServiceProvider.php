@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Product;
+use App\Observers\ProductObserver;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
@@ -36,6 +38,11 @@ class AppServiceProvider extends ServiceProvider
 
        Paginator::useBootstrap();
        //Paginator::defaultView('pagination.customPagination');
+
+
+       //register our product observer .
+
+       Product::observe(ProductObserver::class);
     }
     
 
