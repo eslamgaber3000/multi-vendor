@@ -17,7 +17,7 @@ class CheckApiKey
     public function handle(Request $request, Closure $next): Response
     {
 
-        if ($request->header('Authorization') === "Bearer" . Config::get('app.api_key')) {
+        if ($request->header('Authorization_key') === "Bearer" . Config::get('app.api_key')) {
             
             return $next($request);
         }

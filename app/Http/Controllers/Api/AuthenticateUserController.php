@@ -18,7 +18,8 @@ class AuthenticateUserController extends Controller
 
             'email'=>'required|email',
             'password'=>'required|min:8',
-            'device-name'=>'nullable|string'
+            'device-name'=>'nullable|string' ,
+            'abilities'=>'nullable|array'
         ]);
 
         $user=User::where('email','=',$request->post('email'))->first();
@@ -27,7 +28,7 @@ class AuthenticateUserController extends Controller
                 return Response::json([ 'code'=>0,'message'=>'invalid credentials'], 401);
 
             }
-            $token=$user->createToken($request->post('device-name',$request->header('User-Agent')))->plainTextToken;
+            $token=$user->createToken($request->post('device-name',$request->header('User-Agent')),$request->abilities)->plainTextToken;
                 return Response::json([
                     'code'=> 1 ,
                     'token'=>$token ,
@@ -63,5 +64,18 @@ class AuthenticateUserController extends Controller
         }else {
             return Response::json(['message' => 'no user found']);
         }
+    }
+
+
+    public function destroyAll(){
+
+        $user= auth()->user() ;
+
+        if($user){
+            $user->tokens()->delete();
+            return response()->json(['message'=>'All sessions are deleted'],200);
+        }
+
+
     }
 }

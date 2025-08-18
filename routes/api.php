@@ -27,4 +27,5 @@ Route::apiResource('product',ProductController::class);  // this what I need whe
 
 Route::post('login',[AuthenticateUserController::class,'login']);
 Route::delete('logout/{token?}',[AuthenticateUserController::class,'destroy'])->middleware('auth:sanctum');
+Route::delete('all-devices-logout',[AuthenticateUserController::class,'destroyAll'])->middleware('auth:sanctum');
 

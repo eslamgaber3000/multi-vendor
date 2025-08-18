@@ -15,7 +15,7 @@ class ProductController extends Controller
     //define middleware to create , update and delete actions
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->only(['create','update','destroy']);
+        $this->middleware('auth:sanctum')->only(['store','update','destroy']);
         // or we can use
         // $this->middleware('auth:sanctum')->except(['index','show']);
 
@@ -70,6 +70,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
+     if (auth()->user()->tokenCan('abilities.create')) {
+         
+      
        $request->validate([
 
         'name'=>'required|string|min:3|max:30',
@@ -90,8 +94,11 @@ class ProductController extends Controller
         // if you don't use this store action you should tell laravel to return json
        return Response::json(['product'=>$product,'message=>product add successfully'],201);
 
+    }else {
+       return Response::json(['message=>Unauthorized:U can not complete this action '],401);
+        
     }
-
+  }
     /**
      * Display the specified resource.
      */
@@ -114,8 +121,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $product=Product::findOrFail($id);
 
+        if ($request->user()->tokenCan('abilities.update')) {
+          
+
+        $product=Product::findOrFail($id);
          //validate data 
         $request->validate([
         'name'=>'sometimes|required|string|min:3|max:30',
@@ -130,7 +140,11 @@ class ProductController extends Controller
        
         $product->update($request->only(['name', 'description','status','price','compare_price','category_id']));
         
-        return $product;
+        return $product ;
+        }else {
+
+          return  Response::json(['message'=>'Unauthorized: U can not complete this action'],401);
+        }
 
         
     }
@@ -140,9 +154,15 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-
-        Product::destroy($id);
+        if (request()->user()->tokenCan('abilities.delete')) {
+          Product::destroy($id);
         //  $product=Product::findOrFail($id);
-     return response()->json(['message'=>'product Deleted successfully']);
+            
+        return response()->json(['message'=>'product Deleted successfully']);   
+        }else {
+          return  Response::json(['message'=>'Unauthorized: U can not complete this action'],401);
+        }
+
+       
     }
 }
