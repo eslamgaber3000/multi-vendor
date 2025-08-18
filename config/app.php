@@ -76,6 +76,8 @@ return [
 
     'currency'=>'EUR',
 
+    'api_key' =>env('API_KEY') ,
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

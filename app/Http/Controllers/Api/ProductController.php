@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -10,6 +11,15 @@ use Illuminate\Support\Facades\Response;
 
 class ProductController extends Controller
 {
+
+    //define middleware to create , update and delete actions
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->only(['create','update','destroy']);
+        // or we can use
+        // $this->middleware('auth:sanctum')->except(['index','show']);
+
+    }
     /**
      * Display a listing of the resource.
      */
@@ -20,7 +30,9 @@ class ProductController extends Controller
     $products=Product::filter($request->query())
     ->with(['category:id,name','store:id,name','tags:id,name'])
     ->paginate(); 
+//here we can try to use product resource ,
 
+// return ProductResource::collection($products);
     return $products ;
     
     // ->when($request->query('tag_id'), function($query , $value){
@@ -85,10 +97,14 @@ class ProductController extends Controller
      */
     public function show(Product $product) //can I use model binding
     {
-        return response()->json($product->load('category:id,name', 'store:id,name','tags:id,name'));
-        // $product=Product::with(['category:id,name','store:id,name','tags:id,name'])->findOrFail($id);
 
-        
+        // we can use the resource to show the product 
+
+        // return new ProductResource($product) ;
+        return response()->json($product->load('category:id,name', 'store:id,name','tags:id,name'));
+        //  $product=Product::with(['category:id,name','store:id,name','tags:id,name'])->findOrFail($id);
+
+        // return $product ;
 
     
     }
