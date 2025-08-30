@@ -14,7 +14,7 @@ Class Currency {
        if (Session::has('currency_code')) {
         $base_currency = Session::get('currency_code');
        } else {
-        $base_currency = config('app.currency');
+        $base_currency = config('app.currency','USD');
        }
       
        if(Session::has('rate')){
