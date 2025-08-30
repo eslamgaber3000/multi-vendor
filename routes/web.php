@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\front\CartController;
 use App\Http\Controllers\front\HomeController;
 use App\Http\Controllers\front\CheckOutController;
+use App\Http\Controllers\front\CurrencyConverterController;
 use App\Http\Controllers\front\ProductsController;
 use App\Http\Controllers\TowFactorAuthenticationController;
 
@@ -46,3 +47,7 @@ Route::get('/clear-session', function () {
     Session::forget(['message', 'type']);
     return 'Session cleared ✅';
 });
+
+
+// route fro currency converter 
+Route::post('convert-currency',[CurrencyConverterController::class,'store'])->name('convert-currency');

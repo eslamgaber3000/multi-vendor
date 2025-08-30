@@ -49,14 +49,41 @@
                             <ul class="menu-top-link">
                                 <li>
                                     <div class="select-position">
-                                        <select id="select4">
-                                            <option value="0" selected>$ USD</option>
-                                            <option value="1">€ EURO</option>
-                                            <option value="2">$ CAD</option>
-                                            <option value="3">₹ INR</option>
-                                            <option value="4">¥ CNY</option>
-                                            <option value="5">৳ BDT</option>
-                                        </select>
+                                        @php
+                                        $currencies = [
+                                            'USD'=>['currency_code'=>'USD','country_flag'=>"&#x1F1FA;&#x1F1F8;"] ,
+
+                                            'EUR'=>['currency_code'=>'EUR','country_flag'=>"&#x1F1EA;&#x1F1FA;"]
+                                            ,
+                                            'EGP'=>['currency_code'=>'EGP','country_flag'=>"&#x1F1EA;&#x1F1EC;"]
+                                            ,
+                                            'SAR'=>['currency_code'=>'SAR','country_flag'=>"&#x1F1F8;&#x1F1E6;"],
+
+                                            'QAR'=>['currency_code'=>'QAR','country_flag'=>"&#x1F1F6;&#x1F1E6;"] ,
+
+                                            'ILS'=>['currency_code'=>'ILS','country_flag'=>"&#x1F1F5;&#x1F1F8;"]
+
+                                        
+                                    ];
+                                        @endphp
+                                        <form action="{{ route('convert-currency') }}" method="Post"  id="currency">
+                                            @csrf
+                                            {{-- <select id="select4" name="currency" > --}}
+                                            <select id="select4" name="currency" onchange="this.form.submit()" >
+
+
+                                                @foreach ($currencies as $c_key=>$c_value )
+                                                <option value="{{ $c_key }}" @selected(session()->get('currency_code') == $c_key) >{!! ($c_value['country_flag']) !!} {{ $c_key }}</option>
+                                                    
+                                                @endforeach
+                                                {{-- <option value="USD" @if(session()->has('currency_code') && session()->get('currency_code')==='USD')  selected @endif >&#x1F1FA;&#x1F1F8; USD</option>
+                                                <option value="EUR"  @selected(session()->get('currency_code')==='EUR') >&#x1F1EA;&#x1F1FA; EURO</option>
+                                                <option value="EGP" @selected(session()->get('currency_code')=='EGP') > &#x1F1EA;&#x1F1EC;  EGP</option>
+                                                <option value="SAR" @selected(session()->get('currency_code')=='SAR') >&#x1F1F8;&#x1F1E6;  SAR</option>
+                                                <option value="QAR" @selected(session()->get('currency_code')=='QAR') >&#x1F1F6;&#x1F1E6; QAR</option>
+                                                <option value="ILS" @if(session()->has('currency_code') && session()->get('currency_code')=='ILS')  selected @endif >&#x1F1F5;&#x1F1F8;   ILS</option> --}}
+                                            </select>
+                                        </form>
                                     </div>
                                 </li>
                                 <li>
@@ -470,6 +497,16 @@
     <script src="{{asset('assets/js/tiny-slider.js')}}"></script>
     <script src="{{asset('assets/js/glightbox.min.js')}}"></script>
     <script src="{{asset('assets/js/main.js')}}"></script>
+
+    {{-- <script>
+        const currencySelect=document.getElementById('select4') ;
+        const currencyForm=document.getElementById('currency') ;
+
+        currencySelect.addEventListener('change',function(){
+            currencyForm.submit();
+        });
+        
+    </script> --}}
     @stack('scripts')
 </body>
 

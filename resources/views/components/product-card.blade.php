@@ -28,10 +28,23 @@
             <li><span>5.0 Review(s)</span></li>
         </ul>
         <div class="price">
-            <span>{{ Currency::formate($product->price,config('app.currency'))}}</span>
+
+            @php
+                
+                // if(session()->has('rate') || session()->has('currency') ) {
+                //   $currency_rate=session()->get('rate');
+                  
+                //   $currency_code=session()->get('currency_code');
+                // }else{
+                //     $currency_rate= 1 ;
+                //    $currency_code=config('app.currency');
+                // }
+            @endphp
+            <span>{{ Currency::formate($product->price )}}</span>
+            {{-- <span>{{ Currency::formate($product->price * $currency_rate ,$currency_code)}}</span> --}}
 
             @if ($product->compare_price)
-            <span class="discount-price">{{ Currency::formate($product->compare_price,config('app.currency'))}}</span> 
+            <span class="discount-price">{{ Currency::formate($product->compare_price )}}</span> 
             @endif
         </div>
     </div>

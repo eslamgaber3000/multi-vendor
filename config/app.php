@@ -74,7 +74,7 @@ return [
 
     'timezone' => 'Africa/Cairo',
 
-    'currency'=>'EUR',
+    'currency'=>'USD',
 
     'api_key' =>env('API_KEY') ,
 
