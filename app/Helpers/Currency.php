@@ -2,6 +2,7 @@
 
 namespace  App\Helpers ;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use NumberFormatter;
 
@@ -9,20 +10,24 @@ Class Currency {
  
     // I need to make method to let me deal with currency class in php
 
-    public static function formate($amount , $base_currency='USD'){
+    public static function formate($amount , $base_currency){
 
-       if (Session::has('currency_code')) {
-        $base_currency = Session::get('currency_code');
-       } else {
-        $base_currency = config('app.currency','USD');
-       }
-      
-       if(Session::has('rate')){
+      $base_currency = Session::get('currency_code' , "USD");
+      $cache_key = 'currency_rate'.$base_currency ;
+     
 
-        $rate = Session::get('rate');
+       if(Cache::has($cache_key)){
+
+        $rate = Cache::get($cache_key);
         $amount = $amount * $rate ;
        }
-       $instance= new NumberFormatter(config('app.locale'),NumberFormatter::CURRENCY);
+
+   
+       $instance= new NumberFormatter('en_US',NumberFormatter::CURRENCY);
+       // here to set the currency code instead of symbol
+       $instance->setTextAttribute(NumberFormatter::CURRENCY_CODE, $base_currency);
+        $instance->setSymbol(\NumberFormatter::CURRENCY_SYMBOL, $base_currency);
+
           return  $instance->formatCurrency($amount , $base_currency);
     } 
 

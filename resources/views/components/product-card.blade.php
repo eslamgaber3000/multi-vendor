@@ -39,12 +39,14 @@
                 //     $currency_rate= 1 ;
                 //    $currency_code=config('app.currency');
                 // }
+                // dd(Currency::formate($product->price ));
+
             @endphp
-            <span>{{ Currency::formate($product->price )}}</span>
+            <span>{{ Currency::formate($product->price , session()->get('currency_code', 'USD')) }} </span>
             {{-- <span>{{ Currency::formate($product->price * $currency_rate ,$currency_code)}}</span> --}}
 
             @if ($product->compare_price)
-            <span class="discount-price">{{ Currency::formate($product->compare_price )}}</span> 
+            <span class="discount-price">{{ Currency::formate($product->compare_price , session()->get('currency_code', 'USD')) }}</span>
             @endif
         </div>
     </div>

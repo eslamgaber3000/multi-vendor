@@ -88,15 +88,17 @@
                                 </li>
                                 <li>
                                     <div class="select-position">
-                                        <select id="select5">
-                                            <option value="0" selected>English</option>
-                                            <option value="1">Español</option>
-                                            <option value="2">Filipino</option>
-                                            <option value="3">Français</option>
-                                            <option value="4">العربية</option>
-                                            <option value="5">हिन्दी</option>
-                                            <option value="6">বাংলা</option>
-                                        </select>
+                                        <form action="{{ URL::current() }}" method="get" id="language">
+                                            {{-- @csrf --}}
+                                          
+                                            <select id="select5" name="language">
+                                                <option value="en" @selected(session()->get('language')=='en') >ENGLISH</option>
+                                                <option value="es" @selected(session()->get('language')=='es') >ESPAÑOL</option>
+                                                <option value="ar" @selected(session()->get('language')=='ar') >العربية</option>
+                                                <option value="it" @selected(session()->get('language')=='it') >ITALIANO</option>
+                                                <option value="fr" @selected(session()->get('language')=='fr') >FRANÇAIS</option>
+                                            </select>
+                                        </form>
                                     </div>
                                 </li>
                             </ul>
@@ -105,9 +107,9 @@
                     <div class="col-lg-4 col-md-4 col-12">
                         <div class="top-middle">
                             <ul class="useful-links">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="about-us.html">About Us</a></li>
-                                <li><a href="contact.html">Contact Us</a></li>
+                                <li><a href="index.html">{{ __('Home') }}</a></li>
+                                <li><a href="about-us.html">{{ trans('About Us') }}</a></li>
+                                <li><a href="contact.html">{{ __('Contact Us') }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -116,14 +118,14 @@
                             @auth('web')
                               <div class="user">
                               <a href="{{ route('2fa.setting') }}"><i class="lni lni-user"></i></a>
-                              <span class="text-primary">Hello</span>   {{ Auth::guard('web')->user()->name }}
+                              <span class="text-primary">{{ __('Hello') }}</span>   {{ Auth::guard('web')->user()->name }}
                             </div> 
                              <ul class="user-login">
                                
                                 <li>
                                     <a href="{{ route('logout') }}" 
-                                    
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit()">Logout</a>
+
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit()">{{ __('logout') }}</a>
                                 </li>
                                 <form action="{{ route('logout') }}" method="post" style="display: none" id="logout-form">
                                     @csrf
@@ -132,10 +134,10 @@
                             @else
                             <ul class="user-login">
                                 <li>
-                                    <a href="{{ route('login') }}">Sign In</a>
+                                    <a href="{{ route('login') }}">{{ __('login') }}</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('register') }}">Register</a>
+                                    <a href="{{ route('register') }}">{{ __('register') }}</a>
                                 </li>
                             </ul>
                             @endauth
@@ -166,17 +168,17 @@
                                 <div class="search-select">
                                     <div class="select-position">
                                         <select id="select1">
-                                            <option selected>All</option>
-                                            <option value="1">option 01</option>
-                                            <option value="2">option 02</option>
-                                            <option value="3">option 03</option>
-                                            <option value="4">option 04</option>
-                                            <option value="5">option 05</option>
+                                            <option selected>{{ __('All') }}</option>
+                                            <option value="1">{{ __('option 01') }}</option>
+                                            <option value="2">{{ __('option 02') }}</option>
+                                            <option value="3">{{ __('option 03') }}</option>
+                                            <option value="4">{{ __('option 04') }}</option>
+                                            <option value="5">{{ __('option 05') }}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="search-input">
-                                    <input type="text" placeholder="Search">
+                                    <input type="text" placeholder="{{ __('Search') }}">
                                 </div>
                                 <div class="search-btn">
                                     <button><i class="lni lni-search-alt"></i></button>
@@ -190,7 +192,7 @@
                         <div class="middle-right-area">
                             <div class="nav-hotline">
                                 <i class="lni lni-phone"></i>
-                                <h3>Hotline:
+                                <h3>{{ __('Hotline') }}:
                                     <span>(+100) 123 456 7890</span>
                                 </h3>
                             </div>
@@ -216,7 +218,7 @@
                     <div class="nav-inner">
                         <!-- Start Mega Category Menu -->
                         <div class="mega-category-menu">
-                            <span class="cat-button"><i class="lni lni-menu"></i>All Categories</span>
+                            <span class="cat-button"><i class="lni lni-menu"></i>{{ __('All Categories') }}</span>
                             <ul class="sub-category">
                                 <li><a href="product-grids.html">Electronics <i class="lni lni-chevron-right"></i></a>
                                     <ul class="inner-sub-category">
@@ -258,26 +260,26 @@
                             <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                                 <ul id="nav" class="navbar-nav ms-auto">
                                     <li class="nav-item">
-                                        <a href="{{ route('front.home') }}" aria-label="Toggle navigation">Home</a>
+                                        <a href="{{ route('front.home') }}" aria-label="Toggle navigation">{{ __('Home') }}</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="dd-menu active collapsed" href="javascript:void(0)"
                                             data-bs-toggle="collapse" data-bs-target="#submenu-1-2"
                                             aria-controls="navbarSupportedContent" aria-expanded="false"
-                                            aria-label="Toggle navigation">Pages</a>
+                                            aria-label="Toggle navigation">{{ __('Pages') }}</a>
                                         <ul class="sub-menu collapse" id="submenu-1-2">
-                                            <li class="nav-item"><a href="about-us.html">About Us</a></li>
-                                            <li class="nav-item"><a href="faq.html">Faq</a></li>
-                                            <li class="nav-item active"><a href="{{ route('login') }}">Login</a></li>
-                                            <li class="nav-item"><a href="{{ route('register') }}">Register</a></li>
-                                            <li class="nav-item"><a href="mail-success.html">Mail Success</a></li>
-                                            <li class="nav-item"><a href="404.html">404 Error</a></li>
+                                            <li class="nav-item"><a href="about-us.html">{{ __('About Us') }}</a></li>
+                                            <li class="nav-item"><a href="faq.html">{{ __('Faq') }}</a></li>
+                                            <li class="nav-item active"><a href="{{ route('login') }}">{{ __('Login') }}</a></li>
+                                            <li class="nav-item"><a href="{{ route('register') }}">{{ __('Register') }}</a></li>
+                                            <li class="nav-item"><a href="mail-success.html">{{ __('Mail Success') }}</a></li>
+                                            <li class="nav-item"><a href="404.html">{{ __('404 Error') }}</a></li>
                                         </ul>
                                     </li>
                                     <li class="nav-item">
                                         <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse"
                                             data-bs-target="#submenu-1-3" aria-controls="navbarSupportedContent"
-                                            aria-expanded="false" aria-label="Toggle navigation">Shop</a>
+                                            aria-expanded="false" aria-label="Toggle navigation">{{ __('Shop') }}</a>
                                         <ul class="sub-menu collapse" id="submenu-1-3">
                                             <li class="nav-item"><a href="product-grids.html">Shop Grid</a></li>
                                             <li class="nav-item"><a href="product-list.html">Shop List</a></li>
@@ -289,7 +291,7 @@
                                     <li class="nav-item">
                                         <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse"
                                             data-bs-target="#submenu-1-4" aria-controls="navbarSupportedContent"
-                                            aria-expanded="false" aria-label="Toggle navigation">Blog</a>
+                                            aria-expanded="false" aria-label="Toggle navigation">{{ __('Blog') }}</a>
                                         <ul class="sub-menu collapse" id="submenu-1-4">
                                             <li class="nav-item"><a href="blog-grid-sidebar.html">Blog Grid Sidebar</a>
                                             </li>
@@ -299,7 +301,7 @@
                                         </ul>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="contact.html" aria-label="Toggle navigation">Contact Us</a>
+                                        <a href="contact.html" aria-label="Toggle navigation">{{ __('Contact Us') }}</a>
                                     </li>
                                 </ul>
                             </div> <!-- navbar collapse -->
@@ -310,7 +312,7 @@
                 <div class="col-lg-4 col-md-6 col-12">
                     <!-- Start Nav Social -->
                     <div class="nav-social">
-                        <h5 class="title">Follow Us:</h5>
+                        <h5 class="title">{{  __('Follow Us')}}:</h5>
                         <ul>
                             <li>
                                 <a href="javascript:void(0)"><i class="lni lni-facebook-filled"></i></a>
@@ -357,14 +359,15 @@
                         <div class="col-lg-9 col-md-8 col-12">
                             <div class="footer-newsletter">
                                 <h4 class="title">
-                                    Subscribe to our Newsletter
-                                    <span>Get all the latest information, Sales and Offers.</span>
+                                    <div> {{__('Subscribe News Litter')}}</div>
+                                   
+                                    <span>{{__('Get all the latest information')}}</span>
                                 </h4>
                                 <div class="newsletter-form-head">
                                     <form action="#" method="get" target="_blank" class="newsletter-form">
                                         <input name="EMAIL" placeholder="Email address here..." type="email">
                                         <div class="button">
-                                            <button class="btn">Subscribe<span class="dir-part"></span></button>
+                                            <button class="btn">{{__('Subscribe')}}<span class="dir-part"></span></button>
                                         </div>
                                     </form>
                                 </div>
@@ -384,7 +387,7 @@
                             <!-- Single Widget -->
                             <div class="single-footer f-contact">
                                 <h3>Get In Touch With Us</h3>
-                                <p class="phone">Phone: +1 (900) 33 169 7720</p>
+                                <p class="phone">Phone: +20 (10) 16403402</p>
                                 <ul>
                                     <li><span>Monday-Friday: </span> 9.00 am - 8.00 pm</li>
                                     <li><span>Saturday: </span> 10.00 am - 6.00 pm</li>
@@ -403,14 +406,14 @@
                                     <li>
                                         <a href="javascript:void(0)">
                                             <i class="lni lni-apple"></i>
-                                            <span class="small-title">Download on the</span>
+                                            <span class="small-title">{{__('Download on the')}}</span>
                                             <span class="big-title">App Store</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="javascript:void(0)">
                                             <i class="lni lni-play-store"></i>
-                                            <span class="small-title">Download on the</span>
+                                            <span class="small-title">{{__('Download on the')}}</span>
                                             <span class="big-title">Google Play</span>
                                         </a>
                                     </li>
@@ -421,13 +424,13 @@
                         <div class="col-lg-3 col-md-6 col-12">
                             <!-- Single Widget -->
                             <div class="single-footer f-link">
-                                <h3>Information</h3>
+                                <h3>{{__('Information')}}</h3>
                                 <ul>
-                                    <li><a href="javascript:void(0)">About Us</a></li>
-                                    <li><a href="javascript:void(0)">Contact Us</a></li>
-                                    <li><a href="javascript:void(0)">Downloads</a></li>
-                                    <li><a href="javascript:void(0)">Sitemap</a></li>
-                                    <li><a href="javascript:void(0)">FAQs Page</a></li>
+                                    <li><a href="javascript:void(0)">{{__('About Us')}}</a></li>
+                                    <li><a href="javascript:void(0)">{{__('Contact Us')}}</a></li>
+                                    <li><a href="javascript:void(0)">{{__('Downloads')}}</a></li>
+                                    <li><a href="javascript:void(0)">{{__('Sitemap')}}</a></li>
+                                    <li><a href="javascript:void(0)">{{__('FAQs Page')}}</a></li>
                                 </ul>
                             </div>
                             <!-- End Single Widget -->
@@ -435,13 +438,13 @@
                         <div class="col-lg-3 col-md-6 col-12">
                             <!-- Single Widget -->
                             <div class="single-footer f-link">
-                                <h3>Shop Departments</h3>
+                                <h3>{{__('Shop Departments')}}</h3>
                                 <ul>
-                                    <li><a href="javascript:void(0)">Computers & Accessories</a></li>
-                                    <li><a href="javascript:void(0)">Smartphones & Tablets</a></li>
-                                    <li><a href="javascript:void(0)">TV, Video & Audio</a></li>
-                                    <li><a href="javascript:void(0)">Cameras, Photo & Video</a></li>
-                                    <li><a href="javascript:void(0)">Headphones</a></li>
+                                    <li><a href="javascript:void(0)">{{__('Computers & Accessories')}}</a></li>
+                                    <li><a href="javascript:void(0)">{{__('Smartphones & Tablets')}}</a></li>
+                                    <li><a href="javascript:void(0)">{{__('TV, Video & Audio')}}</a></li>
+                                    <li><a href="javascript:void(0)">{{__('Cameras, Photo & Video')}}</a></li>
+                                    <li><a href="javascript:void(0)">{{__('Headphones')}}</a></li>
                                 </ul>
                             </div>
                             <!-- End Single Widget -->
@@ -458,14 +461,14 @@
                     <div class="row align-items-center">
                         <div class="col-lg-4 col-12">
                             <div class="payment-gateway">
-                                <span>We Accept:</span>
+                                <span>{{__('We Accept')}}:</span>
                                 <img src="{{asset('assets/images/footer/credit-cards-footer.png')}}" alt="#">
                             </div>
                         </div>
                         <div class="col-lg-4 col-12">
                             <div class="copyright">
-                                <p>Designed and Developed by<a href="https://graygrids.com/" rel="nofollow"
-                                        target="_blank">GrayGrids</a></p>
+                                <p>{{__('Designed and Developed by')}} <a href="https://www.linkedin.com/in/eslam-gaber55" rel="nofollow"
+                                        target="_blank">Eslam Gaber</a></p>
                             </div>
                         </div>
                         <div class="col-lg-4 col-12">
@@ -498,15 +501,15 @@
     <script src="{{asset('assets/js/glightbox.min.js')}}"></script>
     <script src="{{asset('assets/js/main.js')}}"></script>
 
-    {{-- <script>
-        const currencySelect=document.getElementById('select4') ;
-        const currencyForm=document.getElementById('currency') ;
+    <script>
+        const LanguageSelect=document.getElementById('select5') ;
+        const LanguageForm=document.getElementById('language') ;
 
-        currencySelect.addEventListener('change',function(){
-            currencyForm.submit();
+        LanguageSelect.addEventListener('change',function(){
+            LanguageForm.submit();
         });
         
-    </script> --}}
+    </script>
     @stack('scripts')
 </body>
 

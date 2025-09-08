@@ -47,6 +47,14 @@ class AppServiceProvider extends ServiceProvider
        //register our product observer .
 
        Product::observe(ProductObserver::class);
+
+    //    here we can set the locale for our application
+    
+   
+
+    
+
+    
     }
     
 

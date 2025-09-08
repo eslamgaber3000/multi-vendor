@@ -40,6 +40,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\LastActiveTime::class ,
             \App\Http\Middleware\MarkReadNotification::class,
+            \App\Http\Middleware\SetLocal::class ,
         ],
 
         'api' => [

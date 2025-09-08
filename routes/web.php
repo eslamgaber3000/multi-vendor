@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\front\CartController;
+use App\Http\Controllers\front\ChangeLanguageController;
 use App\Http\Controllers\front\HomeController;
 use App\Http\Controllers\front\CheckOutController;
 use App\Http\Controllers\front\CurrencyConverterController;
@@ -51,3 +52,4 @@ Route::get('/clear-session', function () {
 
 // route fro currency converter 
 Route::post('convert-currency',[CurrencyConverterController::class,'store'])->name('convert-currency');
+Route::get('change-language',[ChangeLanguageController::class,'store'])->name('change-language');

@@ -35,7 +35,7 @@ class CurrencyConverterController extends Controller
         }
 
 
-         Session()->put('rate',Cache::get($cache_key));
+        //  Session()->put('rate',Cache::get($cache_key));
          return redirect()->back();
 
     }
