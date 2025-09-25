@@ -130,8 +130,31 @@ class productController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+        // we make soft delete to product
+        $product->delete();
+
+        return redirect()->route('dashboard.product.index')->with('success', 'deleted successfully');
+
+    }
+    public function trash(){
+
+        $products = Product::onlyTrashed()->paginate();
+        return view('dashboard.products.trash',compact('products'));
+    }
+
+    public function restore ( $id){
+
+        $product = Product::onlyTrashed()->findOrFail($id);
+      
+        $product->restore();
+        return redirect()->route('dashboard.product.trash')->with('success','restored successfully');
+    }
+
+    public function forceDelete($id){
+        $product = Product::onlyTrashed()->findOrFail($id);
+        $product->forceDelete();
+        return redirect()->back()->with('success','product deleted permenently');
     }
 }

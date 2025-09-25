@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\StoresFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +19,11 @@ class Store extends Model
 
     public $incrementing = true;
 
+
+    //  protected static function newFactory()
+    // {
+    //     return StoresFactory::new();
+    // }
 
 
 
