@@ -88,15 +88,14 @@
                                 </li>
                                 <li>
                                     <div class="select-position">
-                                        <form action="{{ URL::current() }}" method="get" id="language">
-                                            {{-- @csrf --}}
-                                          
-                                            <select id="select5" name="language">
-                                                <option value="en" @selected(session()->get('language')=='en') >ENGLISH</option>
-                                                <option value="es" @selected(session()->get('language')=='es') >ESPAÑOL</option>
-                                                <option value="ar" @selected(session()->get('language')=='ar') >العربية</option>
-                                                <option value="it" @selected(session()->get('language')=='it') >ITALIANO</option>
-                                                <option value="fr" @selected(session()->get('language')=='fr') >FRANÇAIS</option>
+                                        <form action="{{ LaravelLocalization::localizeURL('change-language') }}" method="post" id="language">
+                                            @csrf
+                                            <select id="select5" name="locale" onchange="this.form.submit()">
+                                                @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                                                    <option value="{{ $localeCode }}" @selected(app()->currentLocale() == $localeCode)>{{ $properties['native'] }}</option>
+
+                                                @endforeach
+                                               
                                             </select>
                                         </form>
                                     </div>

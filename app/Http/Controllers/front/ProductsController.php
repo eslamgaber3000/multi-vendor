@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 class ProductsController extends Controller
 {
     
-    public function show(Product $product){
+    public function show( Product $product ){
     // $product=Product::where('slug',$slug)->first();
     if(!$product){
 

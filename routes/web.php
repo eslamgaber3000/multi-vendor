@@ -5,12 +5,13 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\front\CartController;
-use App\Http\Controllers\front\ChangeLanguageController;
 use App\Http\Controllers\front\HomeController;
 use App\Http\Controllers\front\CheckOutController;
-use App\Http\Controllers\front\CurrencyConverterController;
 use App\Http\Controllers\front\ProductsController;
+use App\Http\Controllers\front\ChangeLanguageController;
+use App\Http\Controllers\front\CurrencyConverterController;
 use App\Http\Controllers\TowFactorAuthenticationController;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,14 @@ use App\Http\Controllers\TowFactorAuthenticationController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+Route::group( [
+
+    'prefix'=>LaravelLocalization::setLocale(),
+    'middleware'=>[ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+],
+function(){
 
 Route::get('/' , [HomeController::class ,'index'])->name('front.home');
 Route::get('products/index' ,[ProductsController::class,'index'])->name('front.products.index'); 
@@ -41,7 +50,10 @@ Route::post('/checkout' ,[CheckOutController::class,'store']);
  
 Route::get('tow-factor-authentication-setting',[TowFactorAuthenticationController::class, 'index'])->name('2fa.setting');
 
-// require __DIR__.'/auth.php';
+// route fro currency converter 
+Route::post('convert-currency',[CurrencyConverterController::class,'store'])->name('convert-currency');
+Route::post('change-language',[ChangeLanguageController::class,'change'])->name('change-language');
+});
 require __DIR__.'/dashboard.php';
 
 Route::get('/clear-session', function () {
@@ -50,6 +62,3 @@ Route::get('/clear-session', function () {
 });
 
 
-// route fro currency converter 
-Route::post('convert-currency',[CurrencyConverterController::class,'store'])->name('convert-currency');
-Route::get('change-language',[ChangeLanguageController::class,'store'])->name('change-language');

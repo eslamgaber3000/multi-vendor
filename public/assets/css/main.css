@@ -44,6 +44,7 @@ body {
   color: #888;
   overflow-x: hidden;
   font-size: 14px;
+  /* direction: rtl; */
 }
 
 p {
