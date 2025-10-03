@@ -30,6 +30,12 @@ Route::group(
     Route::resource('dashboard/category',CategoryController::class);
     Route::resource('/dashboard/product',productController::class);
     Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
+
+    //routes for soft delete product
+    Route::get('/product/trash',[productController::class ,'trash'])->name('product.trash'); 
+    Route::put('/product/{product}/restore',[productController::class ,'restore'])->name('product.restore'); 
+    Route::delete('/product/{product}/force-delete',[productController::class ,'forceDelete'])->name('product.force-delete'); 
+
     //route for User profile 
     Route::get('profile',[ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile',[ProfileController::class, 'update'])->name('profile.update');

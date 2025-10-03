@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
 
         // Store::factory(5)->create();
         // Category::factory(20)->create();
-        // Product::factory(100)->create();
-         Admin::factory(1)->create();
+        Product::factory(100)->create();
+        //  Admin::factory(1)->create();
 
         // $this->call(
         //     UserSeeder::class,
