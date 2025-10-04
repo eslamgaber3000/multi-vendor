@@ -1,11 +1,12 @@
 <?php 
 
-use App\Http\Controllers\dashboard\CategoryController;
-use App\Http\Controllers\dashboard\productController;
-use App\Http\Controllers\Dashboard\ProfileController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\dashboard\RolesController;
+use App\Http\Controllers\dashboard\productController;
+use App\Http\Controllers\Dashboard\ProfileController;
+use App\Http\Controllers\dashboard\CategoryController;
 
 
 Route::group(
@@ -39,5 +40,9 @@ Route::group(
     //route for User profile 
     Route::get('profile',[ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile',[ProfileController::class, 'update'])->name('profile.update');
+
+
+    //route for roles 
+    Route::resource('dashboard/role',RolesController::class);
     
 });

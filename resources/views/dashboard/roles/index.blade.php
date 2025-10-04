@@ -1,8 +1,8 @@
 @extends('layouts.dashboard')
-@section('content-header', 'Categories')
+@section('content-header', 'Roles')
 @section('breadcrumb')
 @parent
-<li class="breadcrumb-item active">Categories</li>
+<li class="breadcrumb-item active">Roles</li>
 @endsection
 
 
@@ -26,43 +26,38 @@
 <table class="table">
     <thead>
         <tr>
-            <th>image</th>
             <th>ID</th>
             <th>Name</th>
-            <th>Products#</th>
-            <th>Parent</th>
-            <th>Status</th>
-            <th>Created At</th>
             <th colspan="2">Actions</th>
         </tr>
     </thead>
 
     <tbody>
 
-        @forelse ($categories as $category)
+        @forelse ($roles as $role)
         <tr>
-            <td> <img src="{{ asset('storage/' . $category->image) }}" alt="" height="50"></td>
-            <td>{{ $category->id }}</td>
-            <td><a href="{{route('dashboard.category.show',$category->id)}}">   {{ $category->name }} </a></td>
-            <td>{{ $category->products_number }}</td>   {{-- show number of products inside every category --}}
-            <td class="">{{ $category->parent->name }}</td>
-            <td class="">{{ $category->status }}</td>
-            <td>{{ $category->created_at }}</td>
+           
+            <td>{{ $role->id }}</td>
+            <td><a href="{{route('dashboard.role.show',$role->id)}}">   {{ $role->name }} </a></td>
+            {{-- <td>{{ $category->products_number }}</td>   show number of products inside every category --}}
+            {{-- <td class="">{{ $category->parent->name }}</td> --}}
+            {{-- <td class="">{{ $category->status }}</td> --}}
+            {{-- <td>{{ $category->created_at }}</td> --}}
             <td>
                 <div class="container">
                     <div class="row">
-                        @if (Auth::user()->can('category.edit'))
+                        @if (Auth::user()->can('role.edit'))
                         <div class="col-md-3">
                             <a class="btn btn-sm btn-outline-success "
-                                href="{{ route('dashboard.category.edit', $category->id) }}">Edit</a>
+                                href="{{ route('dashboard.role.edit', $role->id) }}">Edit</a>
                         </div>
                         @endif
 
-                        @if (Auth::user()->can('category.delete'))
-                            
+                        @if (Auth::user()->can('role.delete'))
+
                         
                         <div class="col-md-3">
-                            <form action="{{ route('dashboard.category.destroy', $category->id) }}" method="post">
+                            <form action="{{ route('dashboard.role.destroy', $role->id) }}" method="post">
                                 <input type="hidden" name="_method" value="delete">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 {{-- <input type="hidden" name="token" value="{{ csrf_token('some-name') }}"> --}}
@@ -78,7 +73,7 @@
         @empty
 
         <tr>
-            <td colspan="8">
+            <td colspan="3" class="text-center">
                 No data has defined yet
             </td>
         </tr>
@@ -86,13 +81,13 @@
     </tbody>
 </table>
 <div class="my-2 mx-2">
-    @can('category.create')
-        
-    <a class="btn btn-sm btn-outline-primary mr-2" href="{{ route('dashboard.category.create') }}">Create</a>
+    @can('role.create')
+
+    <a class="btn btn-sm btn-outline-primary mr-2" href="{{ route('dashboard.role.create') }}">Create</a>
     @endcan
-    <a class="btn btn-sm btn-outline-dark" href="{{ route('dashboard.category.trash') }}">Trash</a>
+    {{-- <a class="btn btn-sm btn-outline-dark" href="{{ route('dashboard.role.trash') }}">Trash</a> --}}
 </div>
-{{ $categories->withQueryString()->links() }}
+{{ $roles->withQueryString()->links() }}
 
 
 

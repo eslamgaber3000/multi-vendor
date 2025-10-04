@@ -16,7 +16,7 @@ class nav extends Component
 
     public function __construct()
     {
-        $this->items=config('nav');
+        $this->items = $this->showNavItems();
     }
 
     /**
@@ -25,5 +25,19 @@ class nav extends Component
     public function render(): View|Closure|string
     {
         return view('components.nav');
+    }
+
+    public function showNavItems(){
+
+        $items = config('nav');
+
+        foreach($items as $item_key=>$item_value){
+
+            if(isset($item_value['abilities']) && auth()->user()->cannot($item_value['abilities'])){
+
+                unset($items[$item_key]);
+            }
+        }
+        return $items;
     }
 }
