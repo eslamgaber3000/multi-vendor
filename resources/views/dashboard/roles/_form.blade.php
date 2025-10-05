@@ -30,15 +30,30 @@
         </div>
 
         <div class="col-md-2">
-            <input type="radio" class="form-check-input" id="{{ $permission_key }}_allow" name="abilities[{{ $permission_key }}]" value="allow"checked >
+            <input type="radio" class="form-check-input" id="{{ $permission_key }}_allow" name="abilities[{{ $permission_key }}]" value="allow"
+                @if ($role->abilities->where('ability',$permission_key)->where('type','allow')->first()) 
+                checked
+                    
+                @endif
+            >
             <label class="form-check-label" for="{{ $permission_key }}_allow">Allow</label>
         </div>
         <div class="col-md-2">
-            <input type="radio" class="form-check-input" id="{{ $permission_key }}_deny" name="abilities[{{ $permission_key }}]" value="deny">
+            <input type="radio" class="form-check-input" id="{{ $permission_key }}_deny" name="abilities[{{ $permission_key }}]" value="deny"
+             @if  (isset($role->abilities) && $role->abilities->where('ability',$permission_key)->where('type','deny')->first()) 
+                checked
+                    
+                @endif
+            >
             <label class="form-check-label" for="{{ $permission_key }}_deny">Deny</label>
         </div>
         <div class="col-md-2">
-            <input type="radio" class="form-check-input" id="{{ $permission_key }}_inherit" name="abilities[{{ $permission_key }}]" value="inherit">
+            <input type="radio" class="form-check-input" id="{{ $permission_key }}_inherit" name="abilities[{{ $permission_key }}]" value="inherit"
+             @if ($role->abilities->where('ability',$permission_key)->where('type','inherit')->first()) 
+                checked
+                    
+                @endif
+            >
             <label class="form-check-label" for="{{ $permission_key }}_inherit">Inherit</label>
         </div>
     </div>

@@ -86,6 +86,7 @@ class RolesController extends Controller
      */
     public function edit(Role $role)
     {
+    
         return view('dashboard.roles.edit', compact('role'));
     }
 
@@ -94,29 +95,32 @@ class RolesController extends Controller
      */
     public function update(Request $request, Role $role)
     {
+
         $request->validate([
             'name'=>'required|string|max:255',
             'abilities'=>'required|array',
         ]);
+
+       
         DB::beginTransaction();
         try {
             $role->update([
                 'name'=>$request->post('name')
             ]);
 
-            foreach ($request->post('abilities') as $ability){
+            foreach ($request->post('abilities') as $ability_key=>$value){
 
-                $role_ability=RoleAblity::where('role_id',$role->id)->where('ability',$ability)->first();
+                $role_ability=RoleAblity::where('role_id',$role->id)->where('ability',$ability_key)->first();
 
                 if($role_ability){
                     $role_ability->update([
-                        'type'=>'allow'
+                        'type'=>$value
                     ]);
                 }else{
                     RoleAblity::create([
                         'role_id'=>$role->id,
-                        'ability'=>$ability,
-                        'type'=>'allow'
+                        'ability'=>$ability_key,
+                        'type'=>$value
                     ]);
                 }
                 // RoleAblity::updateOrCreate(
@@ -135,6 +139,8 @@ class RolesController extends Controller
             throw $e;
             //throw $th;
         }
+
+        return redirect()->route('dashboard.role.index')->with('success','Role Updated !');
     }
 
     /**
@@ -142,6 +148,6 @@ class RolesController extends Controller
      */
     public function destroy(Role $role){
         $role->delete();
-        return redirect()->route('dashboard.roles.index');
+        return redirect()->route('dashboard.role.index')->with('success','Role Deleted !');
     }
 }

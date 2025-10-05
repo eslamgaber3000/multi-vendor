@@ -69,7 +69,7 @@ class AuthServiceProvider extends ServiceProvider
             return true;
         });
         Gate::define('role.delete',function($user){
-            return false;
+            return true;
         });
     }
 }
