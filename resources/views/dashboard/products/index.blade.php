@@ -51,19 +51,25 @@
             <td>
                 <div class="container">
                     <div class="row">
+                        @can('products.update')                       
                         <div class="col-3 mr-3">
                             <a class="btn btn-sm btn-outline-success "
                                 href="{{ route('dashboard.product.edit', $product->id) }}">Edit</a>
                         </div>
-                        <div class="col-3">
-                            <form action="{{ route('dashboard.product.destroy', $product->id) }}" method="post">
-                                <input type="hidden" name="_method" value="delete">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                {{-- <input type="hidden" name="token" value="{{ csrf_token('some-name') }}"> --}}
+                         @endcan
 
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                            </form>
-                        </div>
+                         @if (Auth::user()->can('products.delete'))
+                             
+                         <div class="col-3">
+                             <form action="{{ route('dashboard.product.destroy', $product->id) }}" method="post">
+                                 <input type="hidden" name="_method" value="delete">
+                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                 {{-- <input type="hidden" name="token" value="{{ csrf_token('some-name') }}"> --}}
+ 
+                                 <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                             </form>
+                         </div>
+                         @endif
                     </div>
                 </div>
             </td>
@@ -79,7 +85,10 @@
     </tbody>
 </table>
 <div class="my-2 mx-2">
+    @can('products.create')
+        
     <a class="btn btn-sm btn-outline-primary mr-2" href="{{ route('dashboard.product.create') }}">Create</a>
+    @endcan
     <a class="btn btn-sm btn-outline-primary mr-2" href="{{ route('dashboard.product.trash') }}">Trash</a>
     {{-- <a class="btn btn-sm btn-outline-dark" href="{{ route('dashboard.product.trash') }}">Trash</a> --}}
 </div>

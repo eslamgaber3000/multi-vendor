@@ -8,7 +8,7 @@ return [
     'route'=>'dashboard.category.index',
     'icon'=>'far fa-circle nav-icon',
     'active'=>'dashboard.category.*',
-    'abilities'=>'category.view',
+    'abilities'=>'categories.view',
 ],
 [
     'title'=>'Product',
@@ -16,7 +16,7 @@ return [
     'icon'=>'far fa-circle nav-icon',
     'badge'=>'New',
     'active'=>'dashboard.product.*',
-    'abilities'=>'product.view',
+    'abilities'=>'products.view',
 
 
 ],
@@ -26,7 +26,7 @@ return [
     'icon'=>'nav-icon fas fa-th',
     'badge'=>'New',
     'active'=>'dashboard.dashboard',
-    'abilities'=>'order.view',
+    'abilities'=>'orders.view',
 ],
 [
     'title'=>'Role',
@@ -34,7 +34,15 @@ return [
     'icon'=>'nav-icon fas fa-th',
     'badge'=>'New',
     'active'=>'dashboard.role.*',
-    'abilities'=>'role.view',
+    'abilities'=>'roles.view',
+],
+[
+    'title'=>'Admin',
+    'route'=>'dashboard.admins.index',
+    'icon'=>'nav-icon fas fa-th',
+    'badge'=>'',
+    'active'=>'dashboard.admins.*',
+    'abilities'=>'admins.view',
 ],
 
 

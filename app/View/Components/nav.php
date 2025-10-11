@@ -16,7 +16,10 @@ class nav extends Component
 
     public function __construct()
     {
+
+        // dd( auth()->user()->can('categories.view'));
         $this->items = $this->showNavItems();
+       
     }
 
     /**
@@ -33,7 +36,7 @@ class nav extends Component
 
         foreach($items as $item_key=>$item_value){
 
-            if(isset($item_value['abilities']) && auth()->user()->cannot($item_value['abilities'])){
+            if(isset($item_value['abilities']) && !auth()->user()->can($item_value['abilities'])){
 
                 unset($items[$item_key]);
             }

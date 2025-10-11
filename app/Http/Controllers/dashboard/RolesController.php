@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\RoleAblity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class RolesController extends Controller
 {
@@ -15,7 +16,10 @@ class RolesController extends Controller
      */
     public function index()
     {
-        // display all roles
+
+        if(!Gate::allows('roles.view')){
+            abort(403);
+        }        // display all roles
         $roles = Role::paginate();
         return view('dashboard.roles.index', compact('roles'));
     }
@@ -25,6 +29,7 @@ class RolesController extends Controller
      */
     public function create()
     {
+        Gate::authorize('roles.create');
         $role = new Role();
         return view('dashboard.roles.create', compact('role'));
     }
@@ -34,6 +39,7 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('roles.create');
         // dd($request->all());
         $request->validate((
             [
@@ -78,6 +84,7 @@ class RolesController extends Controller
      */
     public function show(Role $role)
     {
+        Gate::authorize('roles.view');
         return view('dashboard.roles.show', compact('role'));
     }
 
@@ -86,6 +93,7 @@ class RolesController extends Controller
      */
     public function edit(Role $role)
     {
+        Gate::authorize('roles.update');
     
         return view('dashboard.roles.edit', compact('role'));
     }
@@ -95,6 +103,7 @@ class RolesController extends Controller
      */
     public function update(Request $request, Role $role)
     {
+        Gate::authorize('roles.update');
 
         $request->validate([
             'name'=>'required|string|max:255',
@@ -147,6 +156,7 @@ class RolesController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Role $role){
+        Gate::authorize('roles.delete');
         $role->delete();
         return redirect()->route('dashboard.role.index')->with('success','Role Deleted !');
     }

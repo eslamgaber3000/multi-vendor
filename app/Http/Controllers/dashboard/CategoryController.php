@@ -18,7 +18,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        if(Gate::denies('category.view')){
+        if(Gate::denies('categories.view')){
             abort(403);
         }
 
@@ -70,7 +70,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        if(!Gate::allows('category.create')){
+        if(!Gate::allows('categories.create')){
             abort(403);
         }
         $parents = Category::all();
@@ -87,7 +87,7 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request){
 
-        Gate::authorize('category.create');
+        Gate::authorize('categories.create');
 
     
         $slug = $request->merge([
@@ -116,7 +116,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        if(Gate::denies('category.view')){
+        if(Gate::denies('categories.view')){
             abort(403);
         }
         return view('dashboard.categories.show',[
@@ -130,7 +130,7 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        Gate::authorize('category.edit');
+        Gate::authorize('categories.edit');
 
         try {
 
@@ -166,7 +166,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        if (!Gate::allows('category.edit')) {
+        if (!Gate::allows('categories.edit')) {
             abort(403);
         }
 
@@ -205,7 +205,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
 
-        if(!Gate::allows('category.delete')){
+        if(!Gate::allows('categories.delete')){
             abort(403);
         }
         // $category = Category::findOrFail($id);

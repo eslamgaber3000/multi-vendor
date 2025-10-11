@@ -25,5 +25,10 @@ return [
 'roles.update'=>'Roles update',
 'roles.delete'=>'Roles delete',
 
+'admins.view'=>'Admins view',
+'admins.create'=>'Admins create',
+'admins.update'=>'Admins update',
+'admins.delete'=>'Admins delete',
+
 ];
 

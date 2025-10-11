@@ -3,6 +3,8 @@
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\dashboard\UserController;
+use App\Http\Controllers\dashboard\AdminController;
 use App\Http\Controllers\dashboard\RolesController;
 use App\Http\Controllers\dashboard\productController;
 use App\Http\Controllers\Dashboard\ProfileController;
@@ -12,7 +14,7 @@ use App\Http\Controllers\dashboard\CategoryController;
 Route::group(
     
     [
-            'middleware'=>['auth:admin',
+            'middleware'=>['auth:admin,web',
         'verified'    
         ],
             'as'=>'dashboard.',
@@ -44,5 +46,11 @@ Route::group(
 
     //route for roles 
     Route::resource('dashboard/role',RolesController::class);
+
+    // create routs for admins and users management
+    Route::resources([
+        'dashboard/admins'=>AdminController::class,
+        'dashboard/users'=>UserController::class,
+    ]);
     
 });

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\dashboard;
 
-use App\Http\Controllers\Controller;
+use App\Models\Tag;
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str ;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class productController extends Controller
 {
@@ -17,6 +18,7 @@ class productController extends Controller
      */
     public function index()
     {
+        Gate::authorize('products.view');
         // $user=Auth::user();
         // if($user->store_id){
 
@@ -62,6 +64,9 @@ class productController extends Controller
      */
     public function edit(string $id)
     {
+        if(Gate::denies('products.update')){
+            return abort(403);
+        }
         $user=Auth::user();
 
         if($user->store_id){
@@ -84,6 +89,7 @@ class productController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        Gate::authorize('products.update');
         $products_without_tags=$request->except('tags');
 
         $product->update($products_without_tags);
@@ -132,6 +138,7 @@ class productController extends Controller
      */
     public function destroy(Product $product)
     {
+        Gate::authorize('products.delete');
         // we make soft delete to product
         $product->delete();
 
