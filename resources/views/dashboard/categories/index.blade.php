@@ -51,14 +51,14 @@
             <td>
                 <div class="container">
                     <div class="row">
-                        @if (Auth::user()->can('category.edit'))
+                        @if (Auth::user()->can('categories.update'))
                         <div class="col-md-3">
                             <a class="btn btn-sm btn-outline-success "
                                 href="{{ route('dashboard.category.edit', $category->id) }}">Edit</a>
                         </div>
                         @endif
 
-                        @if (Auth::user()->can('category.delete'))
+                        @if (Auth::user()->can('categories.delete'))
                             
                         
                         <div class="col-md-3">
@@ -86,7 +86,7 @@
     </tbody>
 </table>
 <div class="my-2 mx-2">
-    @can('category.create')
+    @can('categories.create')
         
     <a class="btn btn-sm btn-outline-primary mr-2" href="{{ route('dashboard.category.create') }}">Create</a>
     @endcan

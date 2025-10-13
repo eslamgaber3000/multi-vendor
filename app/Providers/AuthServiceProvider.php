@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -17,16 +18,23 @@ class AuthServiceProvider extends ServiceProvider
         //
     ];
 
+    public function register(): void
+    {
+      App::bind('abilities',function(){
+        return include(base_path('data/permissions.php'));
+      })  ; //
+    }
     /**
      * Register any authentication / authorization services.
      */
     public function boot(): void
     {
-
-
+        // we get the path of permissions form data/permissions.php
+      $permission= $this->app->make('abilities');
+ 
         // it should take abilities stands of role
 
-        foreach (config('permissions') as $abilities_code => $value) {
+        foreach ($permission as $abilities_code => $value) {
 
             Gate::define($abilities_code , function ($user) use ($abilities_code) {
                //this should return true or false -1

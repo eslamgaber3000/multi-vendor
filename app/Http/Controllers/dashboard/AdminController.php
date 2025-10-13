@@ -4,6 +4,7 @@ namespace App\Http\Controllers\dashboard;
 
 use App\Models\Role;
 use App\Models\Admin;
+use Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,9 @@ class AdminController extends Controller
        {
         return abort(403);
        }
-        $admins = Admin::where('super-admin' ,'<>',1)->paginate();
+        $admins = Admin::where('id' ,'<>',value: Auth::user()->id)->paginate();
+
+        // dd(vars: $admins);
        
         return view('dashboard.admins.index' ,compact('admins'));
     }
@@ -57,7 +60,7 @@ class AdminController extends Controller
             'name'=>'required|string|min:3|max:256',
             'email'=>'required|email|unique:admins,email,except,id',
             'username'=>'required|unique:admins,username,except,id',
-            'phone'=>'required|string|size:14',
+            'phone'=>'required|string|size:13',
             'image'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'password'=>'required|min:8' ,
             'status'=>'required|in:active,not_active',

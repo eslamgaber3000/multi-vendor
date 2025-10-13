@@ -49,7 +49,15 @@
             <td>{{ $admin->phone }}</td>
             <td class="">{{ $admin->status }}</td>
             <td>{{ $admin->created_at }}</td>
-            <td> <a href="{{ route('dashboard.role.show',$admin->roles()->first()->id )}}">{{ $admin->roles()->first()->name }}</a></td>
+            
+            <td> 
+                @if ($admin->roles()->first())
+                     <a href="{{ route('dashboard.role.show',$admin->roles()->first()->id )}}">
+                    {{ $admin->roles()->first()->name }}</a></td>
+                @else
+                No Role Assigned
+                @endif
+               
             <td>
                 <div class="container">
                     <div class="row">
@@ -60,7 +68,7 @@
                         </div>
                         @endif
 
-                        @if (Auth::user()->can('Admins.delete'))
+                        @if (Auth::user()->can('admins.delete'))
 
                         
                         <div class="col-md-4">

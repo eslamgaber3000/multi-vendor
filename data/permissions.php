@@ -5,10 +5,10 @@
 
 return [
 
-'categories.view'=>'Categories view',
-'categories.create'=>'Categories create',
-'categories.update'=>'Categories update',
-'categories.delete'=>'Categories delete',
+'categories.view'=>__('Categories view'),
+'categories.create'=> __('Categories create'),
+'categories.update'=>__('Categories update'),
+'categories.delete'=>__('Categories delete'),
 
 'products.view'=>'Products view',
 'products.create'=>'Products create',

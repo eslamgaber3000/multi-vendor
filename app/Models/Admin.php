@@ -26,6 +26,17 @@ class Admin extends  User
 
     public function hasAbility($ability){
 
+        // here we check if the admin has the ability passed in the parameter and if the ability type is deny we return false
+       $abilityDenied= $this->roles()->whereHas('abilities',callback: function($query) use ($ability){
+            $query->where('ability','=',$ability)
+            ->where('type','=','deny');
+        })->exists() ;
+
+        if($abilityDenied){
+            return false;
+        }
+
+        // here we check if the admin has the ability passed in the parameter and if the ability type is allow
         return $this->roles()->whereHas('abilities',function($query) use ($ability){
             $query->where('ability','=',$ability)
             ->where('type','=','allow');

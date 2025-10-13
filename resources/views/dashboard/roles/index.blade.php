@@ -46,14 +46,14 @@
             <td>
                 <div class="container">
                     <div class="row">
-                        @if (Auth::user()->can('role.edit'))
+                        @if (Auth::user()->can('roles.update'))
                         <div class="col-md-3">
                             <a class="btn btn-sm btn-outline-success "
                                 href="{{ route('dashboard.role.edit', $role->id) }}">Edit</a>
                         </div>
                         @endif
 
-                        @if (Auth::user()->can('role.delete'))
+                        @if (Auth::user()->can('roles.delete'))
 
                         
                         <div class="col-md-3">
@@ -81,7 +81,7 @@
     </tbody>
 </table>
 <div class="my-2 mx-2">
-    @can('role.create')
+    @can('roles.create')
 
     <a class="btn btn-sm btn-outline-primary mr-2" href="{{ route('dashboard.role.create') }}">Create</a>
     @endcan

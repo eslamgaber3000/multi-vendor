@@ -22,11 +22,16 @@
 <fieldset>
 
     <legend>Abilities</legend>
-@foreach (Config::get('permissions') as $permission_key =>$permission_value )
+
+    @php
+              $permissions=  app()->make('abilities');
+
+    @endphp
+@foreach ($permissions as $permission_key =>$permission_value )
 
   <div class="row mb-3">
          <div class="col-md-6">
-            {{ $permission_value }}
+            {{ is_callable($permission_value) ? $permission_value() : $permission_value }}
         </div>
 
         <div class="col-md-2">
