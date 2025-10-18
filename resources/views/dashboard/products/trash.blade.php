@@ -45,6 +45,7 @@
             <td>
                 <div class="container">
                     <div class="row">
+                        @can('restore', $product)
                         <div class="col-md-3">
                             <form action="{{ route('dashboard.product.restore', $product->id) }}" method="post">
                                 @method('put')
@@ -53,6 +54,8 @@
                                 <button type="submit" class="btn btn-sm btn-outline-info">Restore</button>
                             </form>
                         </div>
+                        @endcan
+                        @can('force-delete', $product)
                         <div class="col-md-3 ml-2">
                             <form action="{{ route('dashboard.product.force-delete', $product->id) }}" method="post">
                                 <input type="hidden" name="_method" value="delete">
@@ -60,6 +63,7 @@
                                 <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                             </form>
                         </div>
+                        @endcan
                     </div>
                 </div>
             </td>

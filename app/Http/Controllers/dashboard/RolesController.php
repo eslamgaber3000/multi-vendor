@@ -14,12 +14,17 @@ class RolesController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    // we use this constructor to apply policy to all resource methods
+    public function __construct()
+    {
+        $this->authorizeResource(Role::class, 'role');
+    }
+
     public function index()
     {
-
-        if(!Gate::allows('roles.view')){
-            abort(403);
-        }        // display all roles
+        
+              // display all roles
         $roles = Role::paginate();
         return view('dashboard.roles.index', compact('roles'));
     }
@@ -29,7 +34,7 @@ class RolesController extends Controller
      */
     public function create()
     {
-        Gate::authorize('roles.create');
+        // Gate::authorize('roles.create');
         $role = new Role();
         return view('dashboard.roles.create', compact('role'));
     }
@@ -39,7 +44,7 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('roles.create');
+        // Gate::authorize('roles.create');
         // dd($request->all());
         $request->validate((
             [
@@ -84,7 +89,7 @@ class RolesController extends Controller
      */
     public function show(Role $role)
     {
-        Gate::authorize('roles.view');
+        // Gate::authorize('roles.view');
         return view('dashboard.roles.show', compact('role'));
     }
 
@@ -93,7 +98,7 @@ class RolesController extends Controller
      */
     public function edit(Role $role)
     {
-        Gate::authorize('roles.update');
+        // Gate::authorize('roles.update');
     
         return view('dashboard.roles.edit', compact('role'));
     }
@@ -103,7 +108,7 @@ class RolesController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        Gate::authorize('roles.update');
+        // Gate::authorize('roles.update');
 
         $request->validate([
             'name'=>'required|string|max:255',
@@ -156,7 +161,7 @@ class RolesController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Role $role){
-        Gate::authorize('roles.delete');
+        // Gate::authorize('roles.delete');
         $role->delete();
         return redirect()->route('dashboard.role.index')->with('success','Role Deleted !');
     }

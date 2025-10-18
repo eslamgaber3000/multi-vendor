@@ -46,15 +46,14 @@
             <td>
                 <div class="container">
                     <div class="row">
-                        @if (Auth::user()->can('roles.update'))
+                        @if (Auth::user()->can('update', $role))
                         <div class="col-md-3">
                             <a class="btn btn-sm btn-outline-success "
                                 href="{{ route('dashboard.role.edit', $role->id) }}">Edit</a>
                         </div>
                         @endif
 
-                        @if (Auth::user()->can('roles.delete'))
-
+                        @if (Auth::user()->can('delete', $role))
                         
                         <div class="col-md-3">
                             <form action="{{ route('dashboard.role.destroy', $role->id) }}" method="post">
@@ -81,7 +80,7 @@
     </tbody>
 </table>
 <div class="my-2 mx-2">
-    @can('roles.create')
+    @can('create', App\Models\Role::class)
 
     <a class="btn btn-sm btn-outline-primary mr-2" href="{{ route('dashboard.role.create') }}">Create</a>
     @endcan

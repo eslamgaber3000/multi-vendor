@@ -29,6 +29,13 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+      // we need to let super have all permissions
+      Gate::before(function($user , $ability){
+        if($user['super-admin']==1 ){
+            return true;
+        }
+      });
+
         // we get the path of permissions form data/permissions.php
       $permission= $this->app->make('abilities');
  

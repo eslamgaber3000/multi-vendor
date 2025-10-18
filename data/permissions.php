@@ -14,6 +14,8 @@ return [
 'products.create'=>'Products create',
 'products.update'=>'Products update',
 'products.delete'=>'Products delete',
+'products.restore'=>__('Products restore'),
+'products.forceDelete'=>__('Products forceDelete'),
 
 'users.view'=>'Users view',
 'users.create'=>'Users create',

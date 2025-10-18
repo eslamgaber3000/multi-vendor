@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\dashboard;
 
+use Auth;
 use App\Models\Role;
 use App\Models\Admin;
-use Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
@@ -60,12 +61,12 @@ class AdminController extends Controller
             'name'=>'required|string|min:3|max:256',
             'email'=>'required|email|unique:admins,email,except,id',
             'username'=>'required|unique:admins,username,except,id',
-            'phone'=>'required|string|size:13',
-            'image'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'phone'=>'required|string|size:13|unique:admins,phone,except,id',
+            'image'=>'image|mimes:jpeg,png,jpg,gif|max:2048',
             'password'=>'required|min:8' ,
             'status'=>'required|in:active,not_active',
             'super_admin'=>'nullable|in:1,0',
-            'role'=>'required|exists:roles,id'
+            'roles'=>'required|array|exists:roles,id'
 
 
         ]);
@@ -76,7 +77,7 @@ class AdminController extends Controller
         if(!$request->has('super-admin')){
             $request->merge(['super-admin'=>0]);
         }
-     $role_id =$request->post('role');
+     $role_ids =$request->post('roles');
      DB::beginTransaction();
 
      try {
@@ -94,13 +95,13 @@ class AdminController extends Controller
             ]
         );
 
-       
+       foreach($role_ids as $role_id){
         $role= Role::findOrFail($role_id);
         if($role->name){
 
             $admin->roles()->attach($role);
         }
-
+         }
         DB::commit();
 
      } catch (\Throwable $th) {
@@ -124,17 +125,77 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Admin $admin)
     {
-        //
+        Gate::authorize('admins.edit');
+        $roles= Role::all();
+        $admin_roles_id= $admin->roles->pluck('id');
+        return view('dashboard.admins.edit', ['admin'=>$admin ,'roles'=>$roles ,'admin_roles_id'=>$admin_roles_id]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Admin $admin)
     {
-        //
+
+        $request->merge(
+           [ 'username'=>Str::slug("Arrzak-".$request->post('name'))]
+        );
+
+         
+        $request->validate([
+            'name'=>'required|string|min:3|max:256',
+            'email'=>['required','email',Rule::unique('admins')->ignore($admin->id)],
+            'username'=>['required',Rule::unique('admins')->ignore($admin->id)],
+            'phone'=>'required|string|size:13|'.Rule::unique('admins')->ignore($admin->id),
+            'image'=>'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'password'=>'required|min:8' ,
+            'status'=>'required|in:active,not_active',
+            'super_admin'=>'nullable|in:1,0',
+            'roles'=>'required|array|exists:roles,id'
+
+
+        ]);
+
+        $image = $this->uploadImage($request);
+       
+       
+        if(!$request->has('super-admin')){
+            $request->merge(['super-admin'=>0]);
+        }
+     $role_ids =$request->post('roles');
+     DB::beginTransaction();
+
+     try {
+
+        $admin->update(
+         [   
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'username'=>$request->username,
+            'phone'=>$request->phone ,
+            'image'=>$image,
+            'status'=>$request->status,
+            'super_admin'=>$request->post('super-admin')
+            ]
+        );  
+         
+
+// sync to update the roles of admin
+        $admin->roles()->sync($role_ids);
+      
+        DB::commit();
+
+     } catch (\Throwable $th) {
+        DB::rollBack();
+        throw $th;
+     }
+
+
+        return redirect()->route('dashboard.admins.index')->with("Admin Updated successfully !");
+
     }
 
     /**

@@ -43,7 +43,7 @@
         <tr>
             <td> <img src="{{ asset('storage/' . $product->image) }}" alt="" height="50"></td>
             <td>{{ $product->id }}</td>
-            <td>{{ $product->name }}</td>
+            <td><a href="{{ route('dashboard.product.show',$product->id) }}">{{ $product->name }}</a></td>
             <td class="">{{ $product->status }}</td>
             <td class="">{{ $product->store()->first()->name}}</td>
             <td class="">{{ $product->category->name}}</td>
@@ -51,14 +51,14 @@
             <td>
                 <div class="container">
                     <div class="row">
-                        @can('products.update')                       
+                        @can('update', $product)                       
                         <div class="col-3 mr-3">
                             <a class="btn btn-sm btn-outline-success "
                                 href="{{ route('dashboard.product.edit', $product->id) }}">Edit</a>
                         </div>
                          @endcan
 
-                         @if (Auth::user()->can('products.delete'))
+                         @if (Auth::user()->can('delete', $product))
                              
                          <div class="col-3">
                              <form action="{{ route('dashboard.product.destroy', $product->id) }}" method="post">
@@ -85,11 +85,15 @@
     </tbody>
 </table>
 <div class="my-2 mx-2">
-    @can('products.create')
+    @if (Auth::user()->can('create',App\Models\Product::class))
         
     <a class="btn btn-sm btn-outline-primary mr-2" href="{{ route('dashboard.product.create') }}">Create</a>
-    @endcan
-    <a class="btn btn-sm btn-outline-primary mr-2" href="{{ route('dashboard.product.trash') }}">Trash</a>
+    @endif
+        
+   @can('delete',$product)
+       
+   <a class="btn btn-sm btn-outline-primary mr-2" href="{{ route('dashboard.product.trash') }}">Trash</a>
+   @endcan
     {{-- <a class="btn btn-sm btn-outline-dark" href="{{ route('dashboard.product.trash') }}">Trash</a> --}}
 </div>
 {{ $products->withQueryString()->links() }}

@@ -48,16 +48,19 @@
             <td>{{ $admin->username }}</td>
             <td>{{ $admin->phone }}</td>
             <td class="">{{ $admin->status }}</td>
-            <td>{{ $admin->created_at }}</td>
-            
+            <td>{{ $admin->created_at }}</td>            
             <td> 
-                @if ($admin->roles()->first())
-                     <a href="{{ route('dashboard.role.show',$admin->roles()->first()->id )}}">
-                    {{ $admin->roles()->first()->name }}</a></td>
+                @if ($admin->roles()->count()>0)
+                @foreach ($admin->roles()->get() as $role)
+                    <a href="{{ route('dashboard.role.show',$role->id )}}">{{ $role->name 
+                        }}
+                {{ !$loop->last ? ',' : ''  }}    
+                    </a> 
+                @endforeach
                 @else
                 No Role Assigned
                 @endif
-               
+                </td>
             <td>
                 <div class="container">
                     <div class="row">

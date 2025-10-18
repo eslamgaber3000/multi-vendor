@@ -18,7 +18,12 @@ class productController extends Controller
      */
     public function index()
     {
-        Gate::authorize('products.view');
+        // using policy for authorization
+
+        if(Auth::user()->cannot('viewAny',Product::class)){
+            return abort(403); 
+        }
+        // Gate::authorize('products.view');
         // $user=Auth::user();
         // if($user->store_id){
 
@@ -40,7 +45,14 @@ class productController extends Controller
      */
     public function create()
     {
-        //
+    
+     // using policy for authorization with user model
+
+        if(request()->user()->cannot('create',Product::class)){
+            return abort(403); 
+
+        }
+
     }
 
     /**
@@ -48,7 +60,8 @@ class productController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // using policy for authorization via controller helper
+        $this->authorize('create', Product::class);
     }
 
     /**
@@ -56,6 +69,8 @@ class productController extends Controller
      */
     public function show(string $id)
     {
+        $product=Product::findOrFail($id);
+        $this->authorize('view',$product);
         //
     }
 
@@ -64,9 +79,9 @@ class productController extends Controller
      */
     public function edit(string $id)
     {
-        if(Gate::denies('products.update')){
-            return abort(403);
-        }
+       $product=Product::findOrFail($id);
+        $this->authorize('update',$product);
+
         $user=Auth::user();
 
         if($user->store_id){
@@ -138,7 +153,7 @@ class productController extends Controller
      */
     public function destroy(Product $product)
     {
-        Gate::authorize('products.delete');
+        $this->authorize('delete', $product);
         // we make soft delete to product
         $product->delete();
 
