@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\front;
 
-use App\Events\orderCreat;
 use Throwable;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Events\orderCreat;
 use App\Models\OrderAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Http\Requests\AddressForm;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AddressForm;
 use Illuminate\Support\Facades\Auth;
+use App\Exceptions\CheckoutException;
 use Symfony\Component\Intl\Countries;
-use App\Repositories\CartRepository\CartRepositoryInterface;
 use Illuminate\Support\Facades\Session;
+use App\Repositories\CartRepository\CartRepositoryInterface;
 
 class CheckOutController extends Controller
 {
@@ -26,7 +27,8 @@ class CheckOutController extends Controller
     
     if(count($cart->get()) == 0){
         
-        return redirect()->route('front.home');
+        throw new CheckoutException('Your cart is empty.');
+        // return redirect()->route('front.home');
     }
         return view('front.checkout', compact('cart' , 'countries'));
     }

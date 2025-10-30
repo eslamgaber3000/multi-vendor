@@ -18,6 +18,8 @@
      <!-- Start Hero Area -->
      <section class="hero-area">
         <div class="container">
+
+            <x-alert type="info" />
             <div class="row">
                 <div class="col-lg-8 col-12 custom-padding-right">
                     <div class="slider-head">
@@ -801,7 +803,7 @@
 
     </script>
     <script>
-        const finaleDate = new Date("October 15, 2025 00:00:00").getTime();
+        const finaleDate = new Date("December 15, 2025 00:00:00").getTime();
 
         const timer = () => {
             const now = new Date().getTime();
