@@ -3,6 +3,7 @@
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\dashboard\ImportProduct;
 use App\Http\Controllers\dashboard\UserController;
 use App\Http\Controllers\dashboard\AdminController;
 use App\Http\Controllers\dashboard\RolesController;
@@ -34,6 +35,10 @@ Route::group(
     Route::resource('/dashboard/product',productController::class);
     Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
 
+
+    // we need to create routes for import products using job
+    Route::get('/import-products', [ImportProduct::class, 'import'])->name('product.import');
+    Route::post('/import-products', [ImportProduct::class, 'store'])->name('product.import');
     //routes for soft delete product
     Route::get('/product/trash',[productController::class ,'trash'])->name('product.trash'); 
     Route::put('/product/{product}/restore',[productController::class ,'restore'])->name('product.restore'); 

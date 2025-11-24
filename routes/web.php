@@ -11,6 +11,7 @@ use App\Http\Controllers\front\ProductsController;
 use App\Http\Controllers\front\ChangeLanguageController;
 use App\Http\Controllers\front\CurrencyConverterController;
 use App\Http\Controllers\TowFactorAuthenticationController;
+use App\Jobs\DeleteOldPendingOreder;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -59,6 +60,14 @@ require __DIR__.'/dashboard.php';
 Route::get('/clear-session', function () {
     Session::forget(['message', 'type']);
     return 'Session cleared ✅';
+});
+
+
+// lets try run the job to delete old pending orders
+
+Route::get('/delete-old-pending-orders', function () {
+    DeleteOldPendingOreder::dispatch();
+    return 'DeleteOldPendingOreder job dispatched!';
 });
 
 
