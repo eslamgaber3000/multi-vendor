@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\SocialLoginController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ProfileController;
@@ -44,6 +45,26 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Social Login
+
+Route::get('/auth/{provider}/redirect', [SocialLoginController::class,'redirect'] )
+->name('auth.provider.redirect');
+
+Route::get('/auth/{provider}/callback', [SocialLoginController::class,'callback'] )
+->name('auth.provider.callback');
+
+//     return Socialite::driver('github')->redirect();
+
+// });
+
+ 
+
+// Route::get('/auth/callback', function () {
+
+//     $user = Socialite::driver('github')->user();
+
+// });
 
 Route::resource('Cart' ,CartController::class);
 Route::get('/checkout', [CheckOutController::class, 'create'])->name('front.checkout');
