@@ -41,5 +41,14 @@ return [
     'redirect' => '/auth/google/callback',
 
 ],
+   'facebook' => [
+
+    'client_id' => env('Facebook_CLIENT_ID'),
+
+    'client_secret' => env('Facebook_CLIENT_SECRET'),
+
+    'redirect' => env('APP_URL').'/auth/facebook/callback',
+
+],
     
 ];
