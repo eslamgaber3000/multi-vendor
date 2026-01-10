@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\SocialLoginController;
+use App\Http\Controllers\Front\PaymentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\front\CartController;
 use App\Http\Controllers\front\HomeController;
 use App\Http\Controllers\front\CheckOutController;
@@ -76,6 +76,15 @@ Route::get('tow-factor-authentication-setting',[TowFactorAuthenticationControlle
 Route::post('convert-currency',[CurrencyConverterController::class,'store'])->name('convert-currency');
 Route::post('change-language',[ChangeLanguageController::class,'change'])->name('change-language');
 });
+
+// payment routes
+Route::get('orders/{order}/pay',[PaymentController::class,'create'])
+->name('orders.payments.create');
+// 
+Route::post('orders/{order}/stripe-paymentIntent',[PaymentController::class,'createStripePaymentIntent'])
+->name('orders.payments.stripePaymentIntent');
+
+
 require __DIR__.'/dashboard.php';
 
 Route::get('/clear-session', function () {

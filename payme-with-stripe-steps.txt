@@ -1,0 +1,7 @@
+Stripe payment Integrations :
+1-get api keyes (secret_key , puplishable_key ) and put it in our services.config using .env file .
+2-download our Stribe php SDK to help us to integate our app with stripe insteade of write native code .
+3-make tabel for every payment transaction to save it in our db .
+4-make controller to handle payment process like create and outer process .
+5-using stripe method "Build a checkout page with Payment Intents API " and this is the link
+	https://docs.stripe.com/payments/quickstart . 

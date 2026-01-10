@@ -41,5 +41,9 @@ return [
     'redirect' => '/auth/google/callback',
 
 ],
+'stripe' => [
+    'publishable_key' => env('STRIPE_PUBLISHABLE_KEY'),
+    'secret_key' => env('STRIPE_SECRET_KEY'),
+],  
     
 ];

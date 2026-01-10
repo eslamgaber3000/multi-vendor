@@ -87,15 +87,17 @@ class CheckOutController extends Controller
             }
             DB::commit(); //commit the three create operations .
             event(new orderCreat($order));        
-            return redirect()->route('front.home',[
-
-               'success-message'=> Session::get('success-message') ,
-               'failed-message'=> Session::get('failed-message')
-            ]);
+        
         } catch (Throwable $e) {
 
             DB::rollBack(); //rolling back from the created 
             throw $e;
         }
+            // return redirect()->route('front.home',[
+
+            //    'success-message'=> Session::get('success-message') ,
+            //    'failed-message'=> Session::get('failed-message')
+            // ]);
+            return redirect()->route('front.payment.create' ,$order->id);
     }
 }
