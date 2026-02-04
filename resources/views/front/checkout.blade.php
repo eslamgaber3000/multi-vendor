@@ -150,8 +150,8 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="single-checkbox checkbox-style-3">
-                                                    <input type="checkbox" id="checkbox-3">
-                                                    <label for="checkbox-3"><span></span></label>
+                                                    <input type="checkbox" id="same-address" name="same_address" value="0">
+                                                    <label for="same-address" name="same_address"><span></span></label>
                                                     <p>My delivery and mailing addresses are the same.</p>
                                                 </div>
                                             </div>
@@ -412,6 +412,54 @@
         </div>
     </section>
     <!--====== Checkout Form Steps Part Ends ======-->
+{{-- when user check that his mail address is same as shipping address --}}
+<script>
+   
+    let sameAddressCheckbox = document.getElementById('same-address');
+        let pilling_country = document.querySelector('select[name="addr[pilling][country]"]');
+        let shipping_country = document.querySelector('select[name="addr[shipping][country]"]');
+        // update the state of shipping country when pilling country change 
+            let pilling_state = document.querySelector('select[name="addr[pilling][state]"]');
+            let shipping_state = document.querySelector('select[name="addr[shipping][state]"]');
 
+    sameAddressCheckbox.addEventListener('change', function(){
+        if(this.checked){
+            // make the value of the checkbox = 1 
+            this.value = 1;
+            // window.alert('Checkbox is checked.. Copying pilling address to shipping address');
+            let pillingFields = document.querySelectorAll('input[name^="addr[pilling]"]');
+          
+            if(shipping_country){
+                shipping_country.value = pilling_country.value;
+                console.log('country copied', shipping_country.value);
+            }
+            if(shipping_state){
+                shipping_state.value = pilling_state.value;
+                console.log('state copied', shipping_state.value);
+            }
+
+            pillingFields.forEach(function(field){
+                let fieldName = field.getAttribute('name').replace('pilling', 'shipping');
+                let shippingField = document.querySelector('input[name="' + fieldName + '"]');
+                if(shippingField){
+                    shippingField.value = field.value;  
+                }
+            });
+        }else{
+            // make the value of the checkbox = 0
+            this.value = 0;
+            let shippingFields = document.querySelectorAll('input[name^="addr[shipping]"]');
+            shipping_country.value = '';
+            shipping_state.value = '';
+            console.log('country copied', shipping_country.value);
+
+
+            shippingFields.forEach(function(field){
+                field.value = '';
+            });
+
+        }
+    });
+</script>
 
 </x-front-layout>

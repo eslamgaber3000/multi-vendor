@@ -1,19 +1,21 @@
 <?php
 
 use App\Http\Controllers\Auth\SocialLoginController;
-use App\Http\Controllers\Front\PaymentController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\front\CartController;
-use App\Http\Controllers\front\HomeController;
-use App\Http\Controllers\front\CheckOutController;
-use App\Http\Controllers\front\ProductsController;
 use App\Http\Controllers\front\ChangeLanguageController;
+use App\Http\Controllers\front\CheckOutController;
 use App\Http\Controllers\front\CurrencyConverterController;
+use App\Http\Controllers\front\HomeController;
+use App\Http\Controllers\Front\PaymentController;
+use App\Http\Controllers\front\ProductsController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\TowFactorAuthenticationController;
 use App\Jobs\DeleteOldPendingOreder;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +86,9 @@ Route::get('orders/{order}/pay',[PaymentController::class,'create'])
 Route::post('orders/{order}/stripe-paymentIntent',[PaymentController::class,'createStripePaymentIntent'])
 ->name('orders.payments.stripePaymentIntent');
 
+Route::get('orders/{order}/stripe-return-url',[PaymentController::class,'stripeReturnUrl'])
+->name('orders.payments.stripeReturnUrl');
+
 
 require __DIR__.'/dashboard.php';
 
@@ -93,6 +98,9 @@ Route::get('/clear-session', function () {
 });
 
 
+//  stripe webhook endpoint
+Route::post('/stripe/webhook', [StripeWebhookController::class,'handleStripeWebhook'])
+->name('stripe.webhook');
 // lets try run the job to delete old pending orders
 
 Route::get('/delete-old-pending-orders', function () {

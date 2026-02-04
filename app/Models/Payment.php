@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'order_id',
+        'amount',
+        'currency',
+        'transaction_id',
+        'transaction_details',
+        'status',
+    ];
+    // define relationship with order 
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }

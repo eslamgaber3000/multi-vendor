@@ -98,6 +98,6 @@ class CheckOutController extends Controller
             //    'success-message'=> Session::get('success-message') ,
             //    'failed-message'=> Session::get('failed-message')
             // ]);
-            return redirect()->route('front.payment.create' ,$order->id);
+            return redirect()->route('orders.payments.create' ,$order->id);
     }
 }

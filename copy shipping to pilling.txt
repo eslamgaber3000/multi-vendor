@@ -1,0 +1,19 @@
+steps for making the check box active making shipping address same as billing address 
+:
+1-catch the text-box and listen to the change if it clicked make the fillowing .
+2-take the data from the inputs of the pilling address and copy it to inputs of shipping address .
+	so I need to slect inputs of pilling address and copy it to shiping address
+
+
+
+
+ if(this.checked){
+            // window.alert('Checkbox is checked.. Copying pilling address to shipping address');
+            let pillingFields = document.querySelectorAll('input[name^="addr[pilling]"]');
+            console.log(pillingFields);
+            // pillingFields.forEach(function(field){
+            //     let fieldName = field.getAttribute('name').replace('pilling', 'shipping');
+            //     let shippingField = document.querySelector('input[name="' + fieldName + '"]');
+                // if(shippingField){
+                //     shippingField.value = field.value;  
+                // }

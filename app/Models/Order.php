@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\OrderItem;
 use App\Models\Store;
-use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Order extends Model
 {
@@ -59,6 +60,10 @@ class Order extends Model
         ->as('order_item')
         ->withPivot('product_name','product_price','quantity','options') ;
        
+    }
+    public function orderItems(){
+
+        return $this->hasMany(OrderItem::class ,'order_id','id');
     }
 
     //address and order has many address relationship .
